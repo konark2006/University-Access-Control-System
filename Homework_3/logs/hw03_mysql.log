@@ -1,0 +1,115 @@
+MariaDB [db_kkonark]> SOURCE Homework_3/sql/queries/all_queries_clabsql.sql;
+Database changed
++----------+---------------------+---------------+---------------+---------+
+| event_id | time_stamp          | user_name     | resource_name | outcome |
++----------+---------------------+---------------+---------------+---------+
+|     5001 | 2025-09-01 10:00:00 | Alice Student | Room A-101    | SUCCESS |
+|     5002 | 2025-09-01 10:05:00 | Alice Student | Room A-101    | FAILED  |
+|     5003 | 2025-09-01 11:00:00 | Bob Staff     | Room B-201    | SUCCESS |
+|     5004 | 2025-09-01 11:15:00 | Eve Visitor   | Room A-102    | FAILED  |
+|     5005 | 2025-09-02 09:30:00 | Dave Security | Srv-Auth      | SUCCESS |
+|     5006 | 2025-09-02 09:31:00 | Dave Security | Srv-Auth      | FAILED  |
+|     5007 | 2025-09-03 08:00:00 | Alice Student | Lab PC-01     | SUCCESS |
+|     5008 | 2025-09-03 08:10:00 | Frank Student | Room A-101    | FAILED  |
+|     5009 | 2025-09-03 08:12:00 | Frank Student | Room A-101    | FAILED  |
+|     5010 | 2025-09-03 08:20:00 | Carol Admin   | Srv-Auth      | SUCCESS |
+|     5011 | 2025-09-04 14:00:00 | Eve Visitor   | Printer-01    | FAILED  |
+|     5012 | 2025-09-05 16:45:00 | Bob Staff     | Room B-201    | SUCCESS |
+|     5013 | 2025-09-05 17:00:00 | Alice Student | Room A-101    | SUCCESS |
++----------+---------------------+---------------+---------------+---------+
+13 rows in set (0.000 sec)
+
++---------------+---------------+
+| resource_name | success_count |
++---------------+---------------+
+| Room A-101    |             2 |
+| Room B-201    |             2 |
+| Srv-Auth      |             2 |
+| Lab PC-01     |             1 |
++---------------+---------------+
+4 rows in set (0.000 sec)
+
++---------------+--------------+
+| full_name     | failed_count |
++---------------+--------------+
+| Frank Student |            2 |
+| Eve Visitor   |            2 |
++---------------+--------------+
+2 rows in set (0.000 sec)
+
++----------+---------+------------------+
+| building | room_no | requests_to_room |
++----------+---------+------------------+
+| A        | 101     |                2 |
++----------+---------+------------------+
+1 row in set (0.000 sec)
+
++----------+---------------+
+| building | failed_events |
++----------+---------------+
+| A        |             4 |
++----------+---------------+
+1 row in set (0.000 sec)
+
++------------+
+| hostname   |
++------------+
+| printer-01 |
++------------+
+1 row in set (0.000 sec)
+
++---------------+--------------+
+| full_name     | success_rate |
++---------------+--------------+
+| Bob Staff     |       1.0000 |
+| Carol Admin   |       1.0000 |
+| Alice Student |       0.7500 |
+| Dave Security |       0.5000 |
+| Eve Visitor   |       0.0000 |
+| Frank Student |       0.0000 |
++---------------+--------------+
+6 rows in set (0.000 sec)
+
++------------+--------------+
+| name       | total_events |
++------------+--------------+
+| Room A-101 |            5 |
+| Srv-Auth   |            3 |
+| Room B-201 |            2 |
++------------+--------------+
+3 rows in set (0.000 sec)
+
++------------------------------+
+| avg_capacity_requested_rooms |
++------------------------------+
+|                      30.0000 |
++------------------------------+
+1 row in set (0.000 sec)
+
++----------+---------------------+---------------+---------------+---------+
+| event_id | time_stamp          | full_name     | resource_name | outcome |
++----------+---------------------+---------------+---------------+---------+
+|     5013 | 2025-09-05 17:00:00 | Alice Student | Room A-101    | SUCCESS |
+|     5012 | 2025-09-05 16:45:00 | Bob Staff     | Room B-201    | SUCCESS |
+|     5010 | 2025-09-03 08:20:00 | Carol Admin   | Srv-Auth      | SUCCESS |
+|     5006 | 2025-09-02 09:31:00 | Dave Security | Srv-Auth      | FAILED  |
+|     5011 | 2025-09-04 14:00:00 | Eve Visitor   | Printer-01    | FAILED  |
+|     5009 | 2025-09-03 08:12:00 | Frank Student | Room A-101    | FAILED  |
++----------+---------------------+---------------+---------------+---------+
+6 rows in set (0.000 sec)
+
++------------+---------------------+---------------------+--------------+
+| request_id | extend_from         | extend_until        | minutes_diff |
++------------+---------------------+---------------------+--------------+
+|       1007 | 2025-09-10 10:00:00 | 2025-09-10 10:00:00 |            0 |
++------------+---------------------+---------------------+--------------+
+1 row in set (0.000 sec)
+
++---------------+
+| full_name     |
++---------------+
+| Dave Security |
++---------------+
+1 row in set (0.000 sec)
+
+MariaDB [db_kkonark]> notee;
