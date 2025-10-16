@@ -1,63 +1,124 @@
-cat > ~/public_html/index.html <<'HTML'
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <title>UACS — University Access Control System</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Manage and audit campus access for users, rooms, and systems."/>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- ========== Header / Nav ========== -->
   <header class="site-header">
-    <div class="container row between center">
-      <div class="logo row center">
-        <img src="img/uacs-logo.svg" alt="UACS Logo" class="logo-img" />
-        <span class="logo-text">UACS</span>
-      </div>
-      <nav class="nav">
-        <a href="index.html" class="active">Home</a>
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="UACS Home">
+        <img class="brand-logo" src="img/uacs-logo.svg" alt="" />
+        <span class="brand-text">UACS</span>
+      </a>
+
+      <button class="nav-toggle" aria-controls="nav" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        ☰
+      </button>
+
+      <nav id="nav" class="nav">
+        <a class="active" href="index.html">Home</a>
         <a href="imprint.html">Imprint</a>
       </nav>
     </div>
   </header>
 
-  <main>
-    <section class="hero">
-      <div class="container">
-        <h1>University Access Control System</h1>
-        <p class="lead">Manage requests, resources, and access events in one place.</p>
-        <div class="cta-row">
-          <a class="btn primary" href="#">View Requests</a>
-          <a class="btn" href="#">Browse Resources</a>
-        </div>
+  <!-- ========== Hero ========== -->
+  <section class="hero">
+    <div class="container">
+      <h1 class="hero-title">University Access Control System</h1>
+      <p class="hero-sub">Manage requests, resources, and access events in one place.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#">View Requests</a>
+        <a class="btn" href="#">Browse Resources</a>
       </div>
-    </section>
+    </div>
+    <div class="hero-pattern" aria-hidden="true"></div>
+  </section>
 
-    <section class="cards container">
+  <!-- ========== Feature Cards ========== -->
+  <section class="section container">
+    <div class="grid-3">
       <article class="card">
-        <h2>Requests</h2>
-        <p>Students, staff, visitors: request access to rooms and systems.</p>
+        <div class="card-icon" aria-hidden="true">📝</div>
+        <h2 class="card-title">Requests</h2>
+        <p>Students, staff, and visitors can request access to rooms and systems with clear statuses.</p>
         <a class="link" href="#">Open request dashboard →</a>
       </article>
+
       <article class="card">
-        <h2>Resources</h2>
-        <p>Browse rooms &amp; systems. See capacity, hostnames, and availability.</p>
+        <div class="card-icon" aria-hidden="true">🏢</div>
+        <h2 class="card-title">Resources</h2>
+        <p>Browse rooms &amp; systems. See capacity, hostnames, and responsible units.</p>
         <a class="link" href="#">Explore resources →</a>
       </article>
+
       <article class="card">
-        <h2>Events</h2>
-        <p>Audit access events, successes &amp; failures, with timestamps.</p>
+        <div class="card-icon" aria-hidden="true">📊</div>
+        <h2 class="card-title">Events</h2>
+        <p>Audit access attempts with timestamps, outcomes, and failure reasons.</p>
         <a class="link" href="#">Review event log →</a>
       </article>
-    </section>
-  </main>
+    </div>
+  </section>
 
+  <!-- ========== How it works ========== -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">How it works</h2>
+      <div class="grid-3 steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Submit</h3>
+          <p>Users submit an <em>Access Request</em> or <em>Extension Request</em> targeting a resource.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Approve</h3>
+          <p>Admins review requests and set <strong>Pending / Approved / Denied</strong>.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Track</h3>
+          <p>Access events are logged as <strong>Success</strong> or <strong>Failed</strong> with full audit trail.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Stats band (static demo) ========== -->
+  <section class="stats">
+    <div class="container stats-inner">
+      <div class="stat"><div class="stat-num">15</div><div class="stat-label">Tables</div></div>
+      <div class="stat"><div class="stat-num">6</div><div class="stat-label">User Roles</div></div>
+      <div class="stat"><div class="stat-num">3</div><div class="stat-label">Request Types</div></div>
+      <div class="stat"><div class="stat-num">13</div><div class="stat-label">Sample Events</div></div>
+    </div>
+  </section>
+
+  <!-- ========== Footer ========== -->
   <footer class="site-footer">
-    <div class="container row between center">
-      <span>© 2025 UACS</span>
-      <a href="imprint.html">Imprint / Disclaimer</a>
+    <div class="container footer-inner">
+      <small>© 2025 UACS</small>
+      <a class="link" href="imprint.html">Imprint / Disclaimer</a>
     </div>
   </footer>
+
+  <script>
+    // Simple mobile nav toggle
+    const btn = document.querySelector('.nav-toggle');
+    const nav = document.getElementById('nav');
+    if (btn && nav) {
+      btn.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    }
+  </script>
 </body>
 </html>
-HTML
