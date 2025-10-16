@@ -1,0 +1,63 @@
+cat > ~/public_html/index.html <<'HTML'
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>UACS — University Access Control System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container row between center">
+      <div class="logo row center">
+        <img src="img/uacs-logo.svg" alt="UACS Logo" class="logo-img" />
+        <span class="logo-text">UACS</span>
+      </div>
+      <nav class="nav">
+        <a href="index.html" class="active">Home</a>
+        <a href="imprint.html">Imprint</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>University Access Control System</h1>
+        <p class="lead">Manage requests, resources, and access events in one place.</p>
+        <div class="cta-row">
+          <a class="btn primary" href="#">View Requests</a>
+          <a class="btn" href="#">Browse Resources</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="cards container">
+      <article class="card">
+        <h2>Requests</h2>
+        <p>Students, staff, visitors: request access to rooms and systems.</p>
+        <a class="link" href="#">Open request dashboard →</a>
+      </article>
+      <article class="card">
+        <h2>Resources</h2>
+        <p>Browse rooms &amp; systems. See capacity, hostnames, and availability.</p>
+        <a class="link" href="#">Explore resources →</a>
+      </article>
+      <article class="card">
+        <h2>Events</h2>
+        <p>Audit access events, successes &amp; failures, with timestamps.</p>
+        <a class="link" href="#">Review event log →</a>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container row between center">
+      <span>© 2025 UACS</span>
+      <a href="imprint.html">Imprint / Disclaimer</a>
+    </div>
+  </footer>
+</body>
+</html>
+HTML
