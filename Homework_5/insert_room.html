@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Room</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Add Room</h1>
+  <form action="insert_room.php" method="post">
+    <label>Resource ID:</label>
+    <input type="number" name="resource_id" required><br>
+    <label>Building:</label>
+    <input type="text" name="building"><br>
+    <label>Room No:</label>
+    <input type="text" name="room_no"><br>
+    <label>Capacity:</label>
+    <input type="number" name="capacity"><br>
+    <button type="submit">Submit</button>
+  </form>
+  <p><a href="maintenance.html">← Back</a></p>
+</body>
+</html>

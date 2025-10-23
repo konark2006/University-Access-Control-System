@@ -1,0 +1,70 @@
+/* ===== UACS HW05 form styles ===== */
+:root{
+  --blue:#0B3D91;
+  --mint:#0FB5A7;
+  --ink:#111827;
+  --ink-2:#374151;
+  --mist:#F5F7FA;
+  --line:#E5E7EB;
+  --white:#fff;
+  --radius:12px;
+  --shadow:0 10px 20px rgba(17,24,39,.08), 0 2px 6px rgba(17,24,39,.06);
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --maxw:900px;
+}
+
+/* Base */
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--font);background:var(--mist);color:var(--ink);line-height:1.5}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* Page shell */
+h1{margin:24px auto 8px;max-width:var(--maxw);padding:0 16px;font-size:28px;color:var(--blue)}
+h2{margin:18px 0 10px;color:var(--ink)}
+main,.card{max-width:var(--maxw);margin:0 auto}
+.card{
+  background:var(--white);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:20px;margin:16px;overflow:hidden
+}
+
+/* Lists on maintenance page */
+ul{list-style:none;padding:0;margin:8px 0}
+ul li{margin:10px 0}
+ul li a{font-weight:600}
+ul li a::before{content:"➜ ";opacity:.7}
+
+/* Forms */
+form{
+  background:var(--white);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:20px;margin:16px
+}
+label{display:block;font-weight:600;margin:10px 0 6px}
+input[type="text"],
+input[type="email"],
+input[type="number"],
+select{
+  width:100%;max-width:520px;padding:10px 12px;border:1px solid var(--line);
+  border-radius:10px;background:#fff;outline:none;transition:border .12s ease
+}
+input:focus,select:focus{border-color:var(--blue)}
+
+button{
+  display:inline-block;margin-top:12px;background:var(--blue);color:#fff;
+  border:none;border-radius:999px;padding:10px 16px;font-weight:700;cursor:pointer
+}
+button:hover{opacity:.94}
+
+/* Feedback messages (you can echo <p class="ok">...</p> or <p class="err">...</p>) */
+.ok{
+  background:#e8f6ff;border:1px solid #bcdfff;color:#0A3E8C;
+  padding:10px 12px;border-radius:10px;margin:16px
+}
+.err{
+  background:#fff1f1;border:1px solid #f5bdbd;color:#8c0a0a;
+  padding:10px 12px;border-radius:10px;margin:16px
+}
+
+/* Footer */
+footer{max-width:var(--maxw);margin:24px auto;padding:0 16px 40px;color:var(--ink-2)}
