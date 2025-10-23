@@ -1,189 +1,123 @@
-/* ---------- Base ---------- */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Inter', 'Segoe UI', sans-serif;
-}
-
-body {
-  background: #f6f8fb;
-  color: #111;
-  line-height: 1.6;
-}
-
-/* ---------- Header ---------- */
-.site-header {
-  background: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  padding: 0.8rem 0;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.container {
-  width: 90%;
-  max-width: 1200px;
-  margin: auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
+/* ---------- Dark Mode Toggle button ---------- */
+.toggle {
+  margin-left: 0.75rem;
+  border: none;
+  background: #f1f5f9;
   color: #0a2540;
-  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform .15s ease, background .2s ease;
+}
+.toggle:hover { transform: translateY(-1px); background: #e7edf6; }
+
+/* ---------- Dark Mode Overrides ---------- */
+body.dark {
+  background: #0f172a;    /* slate-900-ish */
+  color: #e5e7eb;
+}
+
+body.dark .site-header {
+  background: #0b1223;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+}
+
+body.dark .brand,
+body.dark .nav a { color: #e5e7eb; }
+body.dark .nav a:hover,
+body.dark .nav a.active { color: #60a5fa; }
+body.dark .nav-admin { color: #93c5fd; }
+
+body.dark .hero {
+  /* darker gradient */
+  background: linear-gradient(135deg, #0b3a91 0%, #0e7490 50%, #1f2937 100%);
+  color: #e5e7eb;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.55);
+}
+
+body.dark .btn.primary { background:#111827; color:#e5e7eb; }
+body.dark .btn.secondary { background:#1f2937; color:#93c5fd; }
+body.dark .btn.success { background:#15803d; color:#e5e7eb; }
+body.dark .btn.info { background:#0ea5e9; color:#0b1223; }
+body.dark .btn.outline { border-color:#e5e7eb; color:#e5e7eb; }
+
+body.dark .card {
+  background: #0b1223;
+  color: #e5e7eb;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.5);
+}
+body.dark .card h3 { color: #93c5fd; }
+body.dark .card p { color: #cbd5e1; }
+
+body.dark .link { color: #93c5fd; }
+body.dark .link:hover { color: #bfdbfe; }
+
+body.dark .footer {
+  background: #0b1223;
+  color: #9ca3af;
+  border-top-color: #1f2937;
+}
+body.dark .footer a { color: #93c5fd; }
+
+/* keep the github icon sized + aligned in both themes */
+.icon { width:18px; height:18px; fill: currentColor; vertical-align: middle; margin-right:4px; }
+.nav .ext { display:inline-flex; align-items:center; gap:5px; }
+
+/* ---------- Imprint Page Styling ---------- */
+.imprint-container {
+  max-width: 900px;
+  margin: 5rem auto;
+  background: #fff;
+  padding: 3rem 4rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  color: #111;
+  line-height: 1.7;
+}
+
+.imprint-container h1 {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  color: #0052d4;
+  font-size: 2rem;
+}
+
+.imprint-section {
+  margin-bottom: 2.5rem;
+}
+
+.imprint-section h2 {
+  margin-bottom: 0.5rem;
+  color: #0a2540;
   font-size: 1.4rem;
 }
 
-.brand-logo {
-  height: 45px;
-  margin-right: 10px;
-}
-
-.nav a {
-  color: #0a2540;
-  text-decoration: none;
-  margin-left: 1rem;
-  font-weight: 500;
-  transition: 0.3s;
-}
-
-.nav a:hover,
-.nav a.active {
-  color: #007bff;
-}
-
-.nav-admin {
-  color: #0056b3;
-  font-weight: 600;
-}
-
-/* ---------- Hero Section ---------- */
-.hero {
-  text-align: center;
-  padding: 6rem 1rem 4rem;
-  background: linear-gradient(135deg, #0052d4 0%, #65c7f7 50%, #9cecfb 100%);
-  color: white;
-  border-radius: 0 0 40px 40px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-}
-
-.hero h1 {
-  font-size: 2.6rem;
+.imprint-section p {
   margin-bottom: 1rem;
-  font-weight: 700;
+  font-size: 1rem;
 }
 
-.hero p {
-  font-size: 1.1rem;
-  max-width: 650px;
-  margin: 0 auto 2rem;
-  opacity: 0.9;
-}
-
-/* ---------- Buttons ---------- */
-.btn {
-  display: inline-block;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-weight: 600;
-  text-decoration: none;
-  margin: 6px;
-  transition: all 0.25s ease;
-}
-
-.btn.primary { background: #000; color: #fff; }
-.btn.secondary { background: #fff; color: #0052d4; }
-.btn.success { background: #27ae60; color: #fff; }
-.btn.info { background: #17a2b8; color: #fff; }
-.btn.outline { border: 2px solid #fff; color: #fff; }
-
-.btn:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.15); }
-
-/* ---------- Cards Section ---------- */
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.5rem;
-  padding: 4rem 8%;
-}
-
-.card {
-  background: #fff;
-  border-radius: 15px;
-  padding: 2rem;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-}
-
-.card h3 {
-  color: #0052d4;
-  margin-bottom: 0.8rem;
-  font-size: 1.3rem;
-}
-
-.card p {
-  color: #333;
-  font-size: 0.95rem;
-  margin-bottom: 1.2rem;
-}
-
-.link {
+.imprint-container a {
   color: #0052d4;
   text-decoration: none;
-  font-weight: 600;
 }
 
-.link:hover {
+.imprint-container a:hover {
   text-decoration: underline;
 }
 
-/* ---------- Footer ---------- */
-.footer {
-  text-align: center;
-  padding: 1.5rem 0;
-  background: #fff;
-  color: #555;
-  border-top: 1px solid #eee;
+/* ---------- Dark Mode for Imprint ---------- */
+body.dark .imprint-container {
+  background: #0b1223;
+  color: #e5e7eb;
+  box-shadow: 0 4px 25px rgba(0,0,0,0.5);
 }
 
-.footer a {
-  color: #0052d4;
-  text-decoration: none;
-  font-weight: 600;
+body.dark .imprint-container h1 {
+  color: #60a5fa;
 }
 
-/* ---------- GitHub Icon Fix ---------- */
-.icon {
-  width: 18px;
-  height: 18px;
-  fill: currentColor;
-  vertical-align: middle;
-  margin-right: 4px;
+body.dark .imprint-container a {
+  color: #93c5fd;
 }
-
-/* Optional – keeps nav items aligned properly */
-.nav .ext {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  text-decoration: none;
-  color: #0a2540;
-  font-weight: 500;
-}
-
-.nav .ext:hover {
-  color: #007bff;
-}
-
-.nav .ext { display:inline-flex; align-items:center; gap:5px; }
