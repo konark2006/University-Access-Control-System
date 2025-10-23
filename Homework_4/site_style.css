@@ -1,0 +1,92 @@
+/* ---------- Imprint Page Layout ---------- */
+.imprint-container {
+  padding: 4rem 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.imprint-container .card {
+  max-width: 800px;
+  padding: 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  color: #111;
+  transition: background 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.imprint-section h2 {
+  color: #0052d4;
+  font-size: 1.3rem;
+  margin-bottom: 0.6rem;
+}
+
+.imprint-section p {
+  margin-bottom: 1rem;
+  color: #333;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  word-spacing: 0.5px;
+}
+
+/* ---------- Dark Mode ---------- */
+body.dark-mode {
+  background: #0b1728;
+  color: #e2e8f0;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+body.dark-mode .site-header {
+  background: #111b2b;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode .brand-text {
+  color: #f1f5f9;
+}
+
+body.dark-mode .nav a {
+  color: #e2e8f0;
+}
+
+body.dark-mode .nav a.active {
+  color: #58a6ff;
+}
+
+body.dark-mode .card {
+  background: #1e293b;
+  color: #f1f5f9;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+}
+
+body.dark-mode a {
+  color: #58a6ff;
+}
+
+body.dark-mode .footer {
+  background: #111b2b;
+  color: #aaa;
+  border-top: 1px solid #222;
+}
+
+/* ---------- Toggle Button ---------- */
+.btn.small-btn {
+  border: none;
+  background: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  margin-left: 1.2rem;
+  padding: 6px;
+  transition: transform 0.2s ease, color 0.2s ease;
+  color: #0a2540;
+}
+
+.btn.small-btn:hover {
+  transform: scale(1.2);
+  color: #0052d4;
+}
+
+/* Dark Mode button color */
+body.dark-mode .btn.small-btn {
+  color: #f1f5f9;
+}
