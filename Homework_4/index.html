@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>University Access Control System (UACS)</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>UACS — University Access Control System</title>
+  <link rel="stylesheet" href="style.css?v=12" />
 </head>
 
 <body>
@@ -16,32 +16,12 @@
         <span class="brand-text">UACS</span>
       </a>
 
-      <button class="nav-toggle" aria-controls="nav" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        ☰
-      </button>
-
-      <a class="button" href="maintenance.html">Admin / Maintenance Portal →</a>
-
-      <nav id="nav" class="nav">
+      <nav class="nav">
         <a class="active" href="index.html">Home</a>
         <a href="imprint.html">Imprint</a>
-        <!-- GitHub link with icon -->
-        <a class="ext" href="https://github.com/konark2006/University-Access-Control-System/tree/main/Homework_4"
-           target="_blank" rel="noopener">
-          <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
-            <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38
-                     0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
-                     -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
-                     .07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
-                     -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27
-                     .68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
-                     .51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
-                     0 1.07-.01 1.93-.01 2.19 0 .21.15.46.55.38A8 8 0 0 0 16 8
-                     c0-4.42-3.58-8-8-8z"/>
-          </svg>
-          GitHub
-        </a>
+        <a href="../HW5/maintenance.html" class="nav-admin">Maintenance</a>
+
+        <button id="theme-toggle" class="btn small-btn" aria-label="Toggle dark mode">🌙</button>
       </nav>
     </div>
   </header>
@@ -49,35 +29,58 @@
   <!-- ========== Hero Section ========== -->
   <section class="hero">
     <h1>University Access Control System</h1>
-    <p>Manage requests, rooms, and security events for the university — in one unified platform.</p>
+    <p>
+      Manage and secure access across university rooms, systems, and events — seamlessly integrated and fully transparent.
+    </p>
 
-    <a href="maintenance.html" class="btn outline">→ Go to Admin / Maintenance Portal</a>
+    <div class="hero-buttons">
+      <a href="../HW5/insert_request.html" class="btn primary">Access Requests</a>
+      <a href="../HW5/insert_resource.html" class="btn secondary">Manage Resources</a>
+      <a href="../HW5/insert_access_event.html" class="btn success">Audit Events</a>
+      <a href="../HW5/insert_room.html" class="btn info">Room Manager</a>
+      <a href="../HW5/maintenance.html" class="btn outline">Admin Portal</a>
+    </div>
   </section>
 
   <!-- ========== Info Cards ========== -->
   <section class="cards">
     <div class="card">
-      <h3>Access Requests</h3>
-      <p>Submit, approve, or monitor access requests made by students and staff.</p>
-      <a href="#" class="link">Learn more →</a>
+      <h3>📥 Access Requests</h3>
+      <p>Students, staff, and visitors can submit requests for access approval and track their status in real-time.</p>
+      <a href="../HW5/insert_request.html" class="link">Go to Access Requests →</a>
     </div>
 
     <div class="card">
-      <h3>Resources</h3>
-      <p>Track university rooms, systems, and resources connected to access management.</p>
-      <a href="#" class="link">Explore →</a>
+      <h3>💻 Resources</h3>
+      <p>Register and manage rooms, systems, and assets that require controlled access permissions.</p>
+      <a href="../HW5/insert_resource.html" class="link">Manage Resources →</a>
     </div>
 
     <div class="card">
-      <h3>Events</h3>
-      <p>View logs of successful and failed access attempts for audit and compliance.</p>
-      <a href="#" class="link">Audit now →</a>
+      <h3>🔍 Access Events</h3>
+      <p>View detailed event logs of access attempts, including successes and failures, for transparency and auditing.</p>
+      <a href="../HW5/insert_access_event.html" class="link">View Events →</a>
+    </div>
+
+    <div class="card">
+      <h3>🏫 Room Manager</h3>
+      <p>Assign, update, and maintain room information, including capacities and building associations.</p>
+      <a href="../HW5/insert_room.html" class="link">Manage Rooms →</a>
     </div>
   </section>
 
   <!-- ========== Footer ========== -->
   <footer class="footer">
-    <p>© 2025 University Access Control System — <a href="imprint.html">Imprint / Disclaimer</a></p>
+    <p>© 2025 UACS — <a href="imprint.html">Imprint / Disclaimer</a></p>
   </footer>
+
+  <!-- ========== Dark Mode Script ========== -->
+  <script>
+    const toggle = document.getElementById("theme-toggle");
+    toggle.addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+      toggle.textContent = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
+    });
+  </script>
 </body>
 </html>
