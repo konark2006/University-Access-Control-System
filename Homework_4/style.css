@@ -185,3 +185,5 @@ body {
 .nav .ext:hover {
   color: #007bff;
 }
+
+.nav .ext { display:inline-flex; align-items:center; gap:5px; }
