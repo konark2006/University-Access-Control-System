@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>UACS — University Access Control System</title>
-  <link rel="stylesheet" href="./site_style.css?v=11" />
+  <title>University Access Control System (UACS)</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <!-- ================= HEADER ================= -->
+  <!-- ========== Header / Nav ========== -->
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="index.html" aria-label="UACS Home">
@@ -16,15 +16,20 @@
         <span class="brand-text">UACS</span>
       </a>
 
-      <nav class="nav">
+      <button class="nav-toggle" aria-controls="nav" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        ☰
+      </button>
+
+      <a class="button" href="maintenance.html">Admin / Maintenance Portal →</a>
+
+      <nav id="nav" class="nav">
         <a class="active" href="index.html">Home</a>
         <a href="imprint.html">Imprint</a>
-        <a href="maintenance.html" class="nav-admin">Maintenance</a>
-
-        <!-- GitHub link -->
-        <a class="ext" href="https://github.com/konark2006/University-Access-Control-System"
+        <!-- GitHub link with icon -->
+        <a class="ext" href="https://github.com/konark2006/University-Access-Control-System/tree/main/Homework_4"
            target="_blank" rel="noopener">
-          <svg class="icon" width="18" height="18" viewBox="0 0 16 16" aria-hidden="true">
+          <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
             <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38
                      0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
                      -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
@@ -37,84 +42,42 @@
           </svg>
           GitHub
         </a>
-
-        <!-- Dark mode toggle -->
-        <button id="themeToggle" class="btn small-btn" aria-label="Toggle dark mode" title="Toggle theme">🌙</button>
       </nav>
     </div>
   </header>
 
-  <!-- ================= HERO ================= -->
+  <!-- ========== Hero Section ========== -->
   <section class="hero">
     <h1>University Access Control System</h1>
-    <p>Manage access requests, resources, and security events across the university — all in one place.</p>
+    <p>Manage requests, rooms, and security events for the university — in one unified platform.</p>
 
-    <div class="hero-buttons">
-      <a href="insert_request.html" class="btn primary">Access Requests</a>
-      <a href="insert_resource.html" class="btn secondary">Manage Resources</a>
-      <a href="insert_access_event.html" class="btn success">Audit Events</a>
-      <a href="insert_room.html" class="btn info">Room Manager</a>
-      <a href="maintenance.html" class="btn outline">Maintenance Portal</a>
-    </div>
+    <a href="maintenance.html" class="btn outline">→ Go to Admin / Maintenance Portal</a>
   </section>
 
-  <!-- ================= FEATURE CARDS ================= -->
+  <!-- ========== Info Cards ========== -->
   <section class="cards">
     <div class="card">
       <h3>Access Requests</h3>
-      <p>Students, staff, and visitors can request access to rooms or systems, tracked with approval status.</p>
-      <a href="insert_request.html" class="link">Go to Access Requests →</a>
+      <p>Submit, approve, or monitor access requests made by students and staff.</p>
+      <a href="#" class="link">Learn more →</a>
     </div>
 
     <div class="card">
       <h3>Resources</h3>
-      <p>Register and manage rooms, systems, or hardware resources under administrative control.</p>
-      <a href="insert_resource.html" class="link">Manage Resources →</a>
+      <p>Track university rooms, systems, and resources connected to access management.</p>
+      <a href="#" class="link">Explore →</a>
     </div>
 
     <div class="card">
-      <h3>Access Events</h3>
-      <p>Audit every login or room entry attempt — successes and failures with timestamps and details.</p>
-      <a href="insert_access_event.html" class="link">Review Event Logs →</a>
-    </div>
-
-    <div class="card">
-      <h3>Rooms</h3>
-      <p>Assign rooms to buildings, update capacity, and monitor usage across campus facilities.</p>
-      <a href="insert_room.html" class="link">Open Room Manager →</a>
+      <h3>Events</h3>
+      <p>View logs of successful and failed access attempts for audit and compliance.</p>
+      <a href="#" class="link">Audit now →</a>
     </div>
   </section>
 
-  <!-- ================= FOOTER ================= -->
+  <!-- ========== Footer ========== -->
   <footer class="footer">
-    <p>© 2025 UACS — <a href="imprint.html">Imprint / Disclaimer</a></p>
+    <p>© 2025 University Access Control System — <a href="imprint.html">Imprint / Disclaimer</a></p>
   </footer>
-
-  <!-- ================= THEME SCRIPT ================= -->
-  <script>
-    (() => {
-      const KEY = 'uacs-theme';
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const saved = localStorage.getItem(KEY);
-      const initialDark = saved ? saved === 'dark' : prefersDark;
-
-      if (initialDark) document.body.classList.add('dark-mode');
-      const btn = document.getElementById('themeToggle');
-
-      const setIcon = () => {
-        btn.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-      };
-      setIcon();
-
-      btn.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        localStorage.setItem(
-          KEY,
-          document.body.classList.contains('dark-mode') ? 'dark' : 'light'
-        );
-        setIcon();
-      });
-    })();
-  </script>
 </body>
 </html>
