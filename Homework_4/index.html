@@ -1,15 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>UACS — University Access Control System</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Manage and audit campus access for users, rooms, and systems."/>
-  <link rel="icon" type="image/png" href="img/UACS_logo.png">
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
-  <!-- ========== Header / Nav ========== -->
+  <!-- ===== Header / Navigation ===== -->
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="index.html" aria-label="UACS Home">
@@ -17,21 +16,25 @@
         <span class="brand-text">UACS</span>
       </a>
 
-      <button class="nav-toggle" aria-controls="nav" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        ☰
-      </button>
-
-      <a class="button" href="maintenance.html">Admin / Maintenance Portal →</a>
-
       <nav id="nav" class="nav">
         <a class="active" href="index.html">Home</a>
         <a href="imprint.html">Imprint</a>
-        <!-- GitHub link with icon -->
-        <a class="ext" href="https://github.com/konark2006/University-Access-Control-System/tree/main/Homework_4"
+        <a href="maintenance.html" class="nav-admin">Maintenance</a>
+        <a class="ext" href="https://github.com/konark2006/University-Access-Control-System"
            target="_blank" rel="noopener">
           <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
-            <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.19 0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+            <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38
+                     0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94
+                     -.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53
+                     .63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
+                     .07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95
+                     0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12
+                     0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27
+                     .68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82
+                     .44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15
+                     0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
+                     0 1.07-.01 1.93-.01 2.19 0 .21.15.46.55.38A8 8 0 0 0 16 8
+                     c0-4.42-3.58-8-8-8z"/>
           </svg>
           GitHub
         </a>
@@ -39,106 +42,52 @@
     </div>
   </header>
 
-  <!-- ========== Hero ========== -->
+  <!-- ===== Hero Section ===== -->
   <section class="hero">
-    <div class="container">
-      <h1 class="hero-title">University Access Control System</h1>
-      <p class="hero-sub">Manage requests, resources, and access events in one place.</p>
-      <div class="actions">
-        <a class="btn btn-primary" href="#">View Requests</a>
-        <a class="btn" href="#">Browse Resources</a>
-        <!-- Clickable GitHub button -->
-        <a class="btn"
-           href="https://github.com/konark2006/University-Access-Control-System/tree/main/Homework_4"
-           target="_blank" rel="noopener">
-          <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
-            <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.19 0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
-          </svg>
-          View on GitHub
-        </a>
-      </div>
-    </div>
-    <div class="hero-pattern" aria-hidden="true"></div>
-  </section>
+    <div class="hero-content">
+      <h1>University Access Control System</h1>
+      <p>Manage access requests, resources, and security events across the university — all in one place.</p>
 
-  <!-- ========== Feature Cards ========== -->
-  <section class="section container">
-    <div class="grid-3">
-      <article class="card">
-        <div class="card-icon" aria-hidden="true">📝</div>
-        <h2 class="card-title">Requests</h2>
-        <p>Students, staff, and visitors can request access to rooms and systems with clear statuses.</p>
-        <a class="link" href="insert_request.html">Open request dashboard →</a>
-      </article>
-
-      <article class="card">
-        <div class="card-icon" aria-hidden="true">🏢</div>
-        <h2 class="card-title">Resources</h2>
-        <p>Browse rooms &amp; systems. See capacity, hostnames, and responsible units.</p>
-        <a class="link" href="insert_resource.html">Explore resources →</a>
-      </article>
-
-      <article class="card">
-        <div class="card-icon" aria-hidden="true">📊</div>
-        <h2 class="card-title">Events</h2>
-        <p>Audit access attempts with timestamps, outcomes, and failure reasons.</p>
-        <a class="link" href="insert_access_event.html">Review event log →</a>
-      </article>
-    </div>
-  </section>
-
-  <!-- ========== How it works ========== -->
-  <section class="section section-alt">
-    <div class="container">
-      <h2 class="section-title">How it works</h2>
-      <div class="grid-3 steps">
-        <div class="step">
-          <div class="step-num">1</div>
-          <h3>Submit</h3>
-          <p>Users submit an <em>Access Request</em> or <em>Extension Request</em> targeting a resource.</p>
-        </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <h3>Approve</h3>
-          <p>Admins review requests and set <strong>Pending / Approved / Denied</strong>.</p>
-        </div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <h3>Track</h3>
-          <p>Access events are logged as <strong>Success</strong> or <strong>Failed</strong> with full audit trail.</p>
-        </div>
+      <div class="hero-buttons">
+        <a href="insert_request.html" class="btn primary">Access Requests</a>
+        <a href="insert_resource.html" class="btn secondary">Manage Resources</a>
+        <a href="insert_access_event.html" class="btn success">Audit Events</a>
+        <a href="insert_room.html" class="btn info">Room Manager</a>
+        <a href="maintenance.html" class="btn outline">Maintenance Portal</a>
       </div>
     </div>
   </section>
 
-  <!-- ========== Stats band (static demo) ========== -->
-  <section class="stats">
-    <div class="container stats-inner">
-      <div class="stat"><div class="stat-num">15</div><div class="stat-label">Tables</div></div>
-      <div class="stat"><div class="stat-num">6</div><div class="stat-label">User Roles</div></div>
-      <div class="stat"><div class="stat-num">3</div><div class="stat-label">Request Types</div></div>
-      <div class="stat"><div class="stat-num">13</div><div class="stat-label">Sample Events</div></div>
+  <!-- ===== Info Cards ===== -->
+  <section class="cards">
+    <div class="card">
+      <h3>Access Requests</h3>
+      <p>Students, staff, and visitors can request access to rooms or systems, tracked with approval status.</p>
+      <a href="insert_request.html" class="link">Go to Access Requests →</a>
+    </div>
+
+    <div class="card">
+      <h3>Resources</h3>
+      <p>Register and maintain rooms, systems, or hardware resources under administrative control.</p>
+      <a href="insert_resource.html" class="link">Manage Resources →</a>
+    </div>
+
+    <div class="card">
+      <h3>Access Events</h3>
+      <p>Audit every login or room entry attempt — successes and failures with timestamps and details.</p>
+      <a href="insert_access_event.html" class="link">Review Event Logs →</a>
+    </div>
+
+    <div class="card">
+      <h3>Rooms</h3>
+      <p>Assign rooms to buildings, update capacity, and monitor usage across campus facilities.</p>
+      <a href="insert_room.html" class="link">Open Room Manager →</a>
     </div>
   </section>
 
-  <!-- ========== Footer ========== -->
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <small>© 2025 UACS</small>
-      <a class="link" href="imprint.html">Imprint / Disclaimer</a>
-    </div>
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <p>© 2025 UACS — <a href="imprint.html">Imprint / Disclaimer</a></p>
   </footer>
-
-  <script>
-    // Simple mobile nav toggle
-    const btn = document.querySelector('.nav-toggle');
-    const nav = document.getElementById('nav');
-    if (btn && nav) {
-      btn.addEventListener('click', () => {
-        const open = nav.classList.toggle('open');
-        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      });
-    }
-  </script>
 </body>
 </html>
