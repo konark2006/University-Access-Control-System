@@ -162,3 +162,26 @@ body {
   text-decoration: none;
   font-weight: 600;
 }
+
+/* ---------- GitHub Icon Fix ---------- */
+.icon {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+/* Optional – keeps nav items aligned properly */
+.nav .ext {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+  color: #0a2540;
+  font-weight: 500;
+}
+
+.nav .ext:hover {
+  color: #007bff;
+}

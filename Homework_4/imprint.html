@@ -1,11 +1,12 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Imprint — UACS</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
   <header class="site-header">
     <div class="container header-inner">
@@ -13,38 +14,47 @@
         <img class="brand-logo" src="img/UACS_logo.png" alt="UACS logo" />
         <span class="brand-text">UACS</span>
       </a>
-      <nav class="nav open"><a href="index.html">Home</a><a class="active" href="imprint.html">Imprint</a></nav>
+
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a class="active" href="imprint.html">Imprint</a>
+      </nav>
     </div>
   </header>
 
-  <main class="section container narrow">
-    <h1 class="section-title">Imprint</h1>
+  <main class="imprint-container">
+    <h1>Imprint &amp; Disclaimer</h1>
 
-    <h2>Contact</h2>
-    <p>
-      UACS Project Team<br />
-      Constructor University, Bremen, Germany<br />
-      Email: uacs-team <span class="at"> at </span> example <span class="dot"> dot </span> edu
-    </p>
+    <section class="imprint-section">
+      <h2>Contact</h2>
+      <p>
+        <strong>UACS Project Team</strong><br />
+        Constructor University, Bremen, Germany<br />
+        Email: <a href="mailto:itsmekonark@gmail.com">itsmekonark@gmail.com</a>
+      </p>
+    </section>
 
-    <h2>Disclaimer</h2>
-    <p>This website is student lab work and does not necessarily reflect Constructor University opinions.
-    Constructor University does not endorse this site, nor is it checked by Constructor University
-    regularly, nor is it part of the official Constructor University web presence.</p>
-
-    <p>For each external link existing on this website, we initially have checked that the target page
-    does not contain contents which is illegal wrt. German jurisdiction. However, as we have no in-
-    fluence on such contents, this may change without our notice. Therefore we deny any responsib-
-    ility for the websites referenced through our external links from here.</p>
-
-    <p>No information conflicting with GDPR is stored in the server.</p>
+    <section class="imprint-section">
+      <h2>Disclaimer</h2>
+      <p>
+        This website is a student project and does not necessarily reflect the official
+        opinions of Constructor University. The content here is for educational purposes only.
+      </p>
+      <p>
+        Constructor University does not endorse this site, nor is it checked by the university regularly.
+        It is not part of the official Constructor University web presence.
+      </p>
+      <p>
+        For each external link on this website, we initially checked that the target pages do not contain
+        illegal content under German law. However, we have no influence on future content changes and therefore
+        disclaim responsibility for external links.
+      </p>
+      <p>No information conflicting with GDPR is stored on this server.</p>
+    </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <small>© 2025 UACS</small>
-      <a class="link" href="imprint.html">Imprint / Disclaimer</a>
-    </div>
+  <footer class="footer">
+    <p>© 2025 UACS — <a href="imprint.html">Imprint / Disclaimer</a></p>
   </footer>
 </body>
 </html>
