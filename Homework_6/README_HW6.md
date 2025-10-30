@@ -120,4 +120,3 @@ HW6/
 ## ✨ Author
 **Konark** — Constructor University, Bremen  
 _University Access Control System (UACS) — Homework 6_
-"""
