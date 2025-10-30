@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+  --bg: #f7f8fc;
+  --text: #111;
+  --accent: #007bff;
+  --card-bg: #fff;
+  --shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+body.dark {
+  --bg: #0b1728;
+  --text: #e2e8f0;
+  --card-bg: #1e293b;
+  --accent: #58a6ff;
+  --shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  cursor: none;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background 0.5s, color 0.5s;
+}
+
+/* ===== Glowing Cursor ===== */
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  background: var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  mix-blend-mode: difference;
+  filter: blur(4px);
+  transition: transform 0.1s linear;
+  z-index: 2000;
+}
+
+/* ===== Header ===== */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 3rem;
+  position: sticky;
+  top: 0;
+  background: var(--card-bg);
+  box-shadow: var(--shadow);
+  z-index: 100;
+}
+
+.header .logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header .logo img {
+  height: 45px;
+}
+
+.header button {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: var(--text);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.header button:hover {
+  transform: scale(1.3);
+}
+
+/* ===== Hero ===== */
+.hero {
+  text-align: center;
+  padding: 7rem 1rem 4rem;
+  animation: fadeIn 1.5s ease;
+}
+
+.hero .title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+}
+
+.hero .subtitle {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  max-width: 700px;
+  margin: 0 auto 2.5rem;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-block;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.3s;
+  color: #fff;
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, #007bff, #00b4d8);
+}
+
+.btn.secondary {
+  background: linear-gradient(135deg, #9b5de5, #f15bb5);
+}
+
+.btn:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: var(--shadow);
+}
+
+/* ===== Floating Cards ===== */
+.features {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 4rem 2rem;
+}
+
+.feature-card {
+  background: var(--card-bg);
+  color: var(--text);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  padding: 2rem;
+  max-width: 320px;
+  text-align: center;
+  border-top: 4px solid var(--clr);
+  transform: translateY(0);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 30px var(--clr);
+}
+
+/* ===== Footer ===== */
+.footer {
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.9rem;
+  background: var(--card-bg);
+  box-shadow: var(--shadow);
+  color: var(--text);
+}
+
+/* ===== Animations ===== */
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(30px);}
+  to {opacity: 1; transform: translateY(0);}
+}

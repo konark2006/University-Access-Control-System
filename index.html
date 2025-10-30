@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UACS Portal Hub</title>
+  <link rel="stylesheet" href="portal_style.css?v=1" />
+</head>
+
+<body>
+  <!-- ===== Glowing Cursor ===== -->
+  <div class="cursor"></div>
+
+  <!-- ===== Header ===== -->
+  <header class="header">
+    <div class="logo">
+      <img src="./HW4/img/UACS_logo.png" alt="UACS logo" />
+      <h1>University Access Control System</h1>
+    </div>
+    <button id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+  </header>
+
+  <!-- ===== Hero Section ===== -->
+  <section class="hero">
+    <h2 class="title">Access • Control • Search</h2>
+    <p class="subtitle">
+      A secure digital gateway to manage, monitor, and explore university access data.
+    </p>
+
+    <div class="buttons">
+      <a href="./HW4/index.html" class="btn primary">Access Portal</a>
+      <a href="./HW6/index.html" class="btn secondary">Search Portal</a>
+    </div>
+  </section>
+
+  <!-- ===== Floating Cards ===== -->
+  <section class="features">
+    <div class="feature-card" style="--clr:#00b4d8">
+      <h3>⚙️ Admin Access</h3>
+      <p>Manage requests, rooms, and system permissions with a smooth workflow.</p>
+    </div>
+    <div class="feature-card" style="--clr:#9b5de5">
+      <h3>🔍 Smart Search</h3>
+      <p>Query users, events, or resources instantly with powerful database integration.</p>
+    </div>
+    <div class="feature-card" style="--clr:#ff8500">
+      <h3>💡 Dark Mode</h3>
+      <p>Switch between light and dark seamlessly — your preference is remembered.</p>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <p>© 2025 UACS Portal Hub — Built with 💙 by Konark</p>
+  </footer>
+
+  <!-- ===== Scripts ===== -->
+  <script>
+    // Glowing cursor trail
+    const cursor = document.querySelector('.cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.pageX + 'px';
+      cursor.style.top = e.pageY + 'px';
+    });
+
+    // Dark mode toggle
+    const toggle = document.getElementById('theme-toggle');
+    const body = document.body;
+    if (localStorage.getItem('theme') === 'dark') body.classList.add('dark');
+    toggle.addEventListener('click', () => {
+      body.classList.toggle('dark');
+      toggle.textContent = body.classList.contains('dark') ? '☀️' : '🌙';
+      localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>
