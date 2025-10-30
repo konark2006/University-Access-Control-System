@@ -1,12 +1,23 @@
-from pathlib import Path
-import zipfile
 
-# Create README content
-readme_content = """# 🧠 UACS — Homework 6: Search and Query Portal
+🌐 Homepage:
+'''
+https://clabsql.clamv.constructor.university/~kkonark/￼
+'''
 
-## 📘 Overview
-This module extends the University Access Control System (UACS) by introducing an advanced **Search Portal** that enables users and administrators to query stored data efficiently. It connects to the **same database schema** as HW4–HW5 and integrates a PHP-based search system with a modern frontend.
+📘 HW4:
+'''
+https://clabsql.clamv.constructor.university/~kkonark/HW4/
+'''
 
+🧰 HW5 (Maintenance):
+'''
+https://clabsql.clamv.constructor.university/~kkonark/HW5/maintenance.html
+'''
+
+🔍 HW6 (Search):
+'''
+https://clabsql.clamv.constructor.university/~kkonark/HW6/index.html￼
+'''
 ---
 
 ## 🧩 Features Implemented
@@ -106,13 +117,3 @@ HW6/
 **Konark** — Constructor University, Bremen  
 _University Access Control System (UACS) — Homework 6_
 """
-
-# Create markdown and zip file
-readme_path = Path("/mnt/data/README_HW6.md")
-readme_path.write_text(readme_content)
-
-zip_path = Path("/mnt/data/README_HW6.zip")
-with zipfile.ZipFile(zip_path, "w") as zipf:
-    zipf.write(readme_path, arcname="README_HW6.md")
-
-zip_path
