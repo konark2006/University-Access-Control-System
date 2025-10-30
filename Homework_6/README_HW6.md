@@ -1,7 +1,8 @@
 
 🌐 Homepage:
 ```
-https://clabsql.clamv.constructor.university/~kkonark/￼
+https://clabsql.clamv.constructor.university/~kkonark/
+
 ```
 
 📘 HW4:
