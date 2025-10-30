@@ -1,23 +1,23 @@
 
 🌐 Homepage:
-'''
+```
 https://clabsql.clamv.constructor.university/~kkonark/￼
-'''
+```
 
 📘 HW4:
-'''
+```
 https://clabsql.clamv.constructor.university/~kkonark/HW4/
-'''
+```
 
 🧰 HW5 (Maintenance):
-'''
+```
 https://clabsql.clamv.constructor.university/~kkonark/HW5/maintenance.html
-'''
+```
 
 🔍 HW6 (Search):
-'''
+```
 https://clabsql.clamv.constructor.university/~kkonark/HW6/index.html￼
-'''
+```
 ---
 
 ## 🧩 Features Implemented
