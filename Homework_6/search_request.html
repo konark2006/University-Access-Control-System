@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Search Requests — UACS</title>
+  <link rel="stylesheet" href="site_style.css">
+</head>
+<body>
+  <h2>Search Requests</h2>
+  <form action="search_request.php" method="get">
+    <label>Filter by status:</label>
+    <select name="status">
+      <option value="">All</option>
+      <option value="PENDING">Pending</option>
+      <option value="APPROVED">Approved</option>
+      <option value="DENIED">Denied</option>
+    </select>
+    <button type="submit">Search</button>
+  </form>
+</body>
+</html>

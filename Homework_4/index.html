@@ -8,11 +8,11 @@
 </head>
 
 <body>
-  <!-- ========== Header / Nav ========== -->
+  <!-- ✅ Unified Header -->
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="index.html" aria-label="UACS Home">
-        <img class="brand-logo" src="img/UACS_logo.png" alt="UACS logo" />
+      <a class="brand" href="../HW4/index.html" aria-label="UACS Home">
+        <img class="brand-logo" src="../HW4/img/UACS_logo.png" alt="UACS logo" />
         <span class="brand-text">UACS</span>
       </a>
 
@@ -20,13 +20,14 @@
         <a class="active" href="index.html">Home</a>
         <a href="imprint.html">Imprint</a>
         <a href="../HW5/maintenance.html" class="nav-admin">Maintenance</a>
+        <a href="../HW6/index.html" class="nav-search">Search</a>
 
         <button id="theme-toggle" class="btn small-btn" aria-label="Toggle dark mode">🌙</button>
       </nav>
     </div>
   </header>
 
-  <!-- ========== Hero Section ========== -->
+  <!-- ✅ Hero Section -->
   <section class="hero">
     <h1>University Access Control System</h1>
     <p>
@@ -34,15 +35,16 @@
     </p>
 
     <div class="hero-buttons">
+      <a href="../HW5/maintenance.html" class="btn primary">Admin / Maintenance →</a>
+      <a href="../HW6/index.html" class="btn secondary">Search Portal →</a>
       <a href="../HW5/insert_request.html" class="btn primary">Access Requests</a>
       <a href="../HW5/insert_resource.html" class="btn secondary">Manage Resources</a>
       <a href="../HW5/insert_access_event.html" class="btn success">Audit Events</a>
       <a href="../HW5/insert_room.html" class="btn info">Room Manager</a>
-      <a href="../HW5/maintenance.html" class="btn outline">Admin Portal</a>
     </div>
   </section>
 
-  <!-- ========== Info Cards ========== -->
+  <!-- ✅ Info Cards -->
   <section class="cards">
     <div class="card">
       <h3>📥 Access Requests</h3>
@@ -69,12 +71,12 @@
     </div>
   </section>
 
-  <!-- ========== Footer ========== -->
+  <!-- ✅ Footer -->
   <footer class="footer">
     <p>© 2025 UACS — <a href="imprint.html">Imprint / Disclaimer</a></p>
   </footer>
 
-  <!-- ========== Dark Mode Script ========== -->
+  <!-- ✅ Dark Mode Script -->
   <script>
     const toggle = document.getElementById("theme-toggle");
     toggle.addEventListener("click", () => {

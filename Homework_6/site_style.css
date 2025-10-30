@@ -1,0 +1,247 @@
+/* ====== Base ====== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", "Segoe UI", sans-serif;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #f6f8fb;
+  color: #111;
+  line-height: 1.6;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* ====== Header ====== */
+.site-header {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  padding: 0.8rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(8px);
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #0a2540;
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+.brand-logo {
+  height: 45px;
+  margin-right: 10px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav a {
+  color: #0a2540;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav a:hover,
+.nav a.active {
+  color: #007bff;
+}
+
+/* ====== Hero ====== */
+.hero {
+  text-align: center;
+  padding: 6rem 1rem 3rem;
+  background: linear-gradient(135deg, #0052d4 0%, #65c7f7 50%, #9cecfb 100%);
+  color: white;
+  border-radius: 0 0 40px 40px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.hero h1 {
+  font-size: 2.6rem;
+  margin-bottom: 1rem;
+  font-weight: 800;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  max-width: 650px;
+  margin: 0 auto 2rem;
+  opacity: 0.9;
+}
+
+/* ====== Buttons ====== */
+.btn {
+  display: inline-block;
+  padding: 12px 22px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  margin: 6px;
+  transition: all 0.3s ease;
+}
+
+.btn.primary {
+  background: #007bff;
+  color: #fff;
+}
+
+.btn.info {
+  background: #17a2b8;
+  color: #fff;
+}
+
+.btn.success {
+  background: #27ae60;
+  color: #fff;
+}
+
+.btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* ====== Cards ====== */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+  padding: 4rem 8%;
+}
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border-top: 4px solid #007bff;
+  text-align: center;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card h3 {
+  color: #0052d4;
+  margin-bottom: 0.8rem;
+  font-size: 1.3rem;
+}
+
+.card p {
+  color: #333;
+  font-size: 0.95rem;
+  margin-bottom: 1.2rem;
+}
+
+/* ====== Footer ====== */
+.footer {
+  text-align: center;
+  padding: 1.5rem 0;
+  background: #fff;
+  color: #555;
+  border-top: 1px solid #eee;
+}
+
+/* ====== Table Styles (for search results) ====== */
+table {
+  width: 90%;
+  max-width: 1000px;
+  margin: 2rem auto;
+  border-collapse: collapse;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+th {
+  background: #007bff;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+tr:hover {
+  background: #f0f7ff;
+}
+
+/* ====== Dark Mode ====== */
+body.dark-mode {
+  background: #0b1728;
+  color: #e2e8f0;
+}
+
+body.dark-mode .site-header {
+  background: #111b2b;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+}
+
+body.dark-mode .card {
+  background: #1e293b;
+  color: #e2e8f0;
+}
+
+body.dark-mode table {
+  background: #1e293b;
+  color: #e2e8f0;
+}
+
+body.dark-mode th {
+  background: #0052d4;
+}
+
+body.dark-mode tr:hover {
+  background: #243447;
+}
+
+body.dark-mode .footer {
+  background: #111b2b;
+  color: #aaa;
+}
+
+/* ====== Dark Mode Button ====== */
+.btn.small-btn {
+  border: none;
+  background: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+  color: #0a2540;
+}
+
+.btn.small-btn:hover {
+  transform: scale(1.2);
+  color: #007bff;
+}
+
+body.dark-mode .btn.small-btn {
+  color: #f1f5f9;
+}
