@@ -1,8 +1,8 @@
 <?php
 // COPY this to db_connect.php on the server and fill the real password there.
-$servername = "localhost";        // On ClamV this stays 'localhost'
-$username   = "kkonark";          // Your MariaDB username
-$password   = "REPLACE_ME";       // <-- leave dummy here in the *sample*
+$servername = "localhost";
+$username   = "kkonark";
+$password   = "p8vnJQoKySIwx2EL";
 $dbname     = "db_kkonark";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
