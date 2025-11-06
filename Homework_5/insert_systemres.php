@@ -1,4 +1,5 @@
 <?php
+require_once "auth_check.php";
 include 'db_connect.php';
 $rid = $_POST['resource_id'];
 $host = $_POST['hostname'];

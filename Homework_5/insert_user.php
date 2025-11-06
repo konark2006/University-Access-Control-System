@@ -1,4 +1,5 @@
 <?php
+require_once "auth_check.php";
 include 'db_connect.php';
 $name = $_POST['full_name'];
 $email = $_POST['email'];

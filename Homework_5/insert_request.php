@@ -1,4 +1,5 @@
 <?php
+require_once "auth_check.php";
 include 'db_connect.php';
 $user = $_POST['made_by_user_id'];
 $resource = $_POST['resource_id'];

@@ -1,4 +1,5 @@
 <?php
+require_once "auth_check.php";
 include 'db_connect.php';
 $eid = $_POST['event_id'];
 $sql = "INSERT INTO Success_Event(event_id) VALUES ('$eid')";
