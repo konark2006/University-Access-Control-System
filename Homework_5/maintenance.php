@@ -169,7 +169,7 @@ require_once "auth_check.php"; // ✅ Ensures only logged-in admins can access
       <div class="card">
         <h3>👤 Users</h3>
         <p>Add or update user details including students, staff, or visitors.</p>
-        <a href="insert_user.php">Manage Users →</a>
+        <a href="form_insert_user.php">Manage Users →</a>
       </div>
 
       <div class="card">
