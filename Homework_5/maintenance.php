@@ -1,3 +1,14 @@
+<?php
+session_start();
+if (!isset($_SESSION["admin"])) {
+    header("Location: login.php?error=unauthorized");
+    exit;
+}
+?>
+
+<h2>Welcome, <?php echo htmlspecialchars($_SESSION["admin"]); ?> 👋</h2>
+<a href="logout.php" style="color:red;font-weight:bold;">Logout</a>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

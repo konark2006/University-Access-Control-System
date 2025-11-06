@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION["admin"])) {
+    // Not logged in → redirect to login page
+    header("Location: login.php?error=unauthorized");
+    exit;
+}
 require_once "auth_check.php";
 include 'db_connect.php';
 $user = $_POST['made_by_user_id'];

@@ -94,6 +94,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       <input type="password" name="password" placeholder="Password" required><br>
       <button type="submit">Login</button>
     </form>
+    <?php
+    if (isset($_GET["msg"]) && $_GET["msg"] === "loggedout") {
+        echo "<p style='color:green;'>✅ You have logged out successfully.</p>";
+    }
+    if (isset($_GET["error"]) && $_GET["error"] === "unauthorized") {
+        echo "<p style='color:red;'>⚠️ Please log in to access that page.</p>";
+    }
+    ?>
   </div>
 </body>
 </html>
