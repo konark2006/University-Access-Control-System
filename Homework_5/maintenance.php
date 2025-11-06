@@ -168,9 +168,9 @@ require_once "auth_check.php"; // ✅ Protects page, requires login
   <header class="uacs-topbar">
     <nav class="uacs-nav">
       <a class="logo" href="/~kkonark/">UACS</a>
-      <a href="/~kkonark/HW4/index.html">📘 Access Portal</a>
+      <a href="/~kkonark/HW4/index.php">📘 Access Portal</a>
       <a href="/~kkonark/HW5/maintenance.php" class="active">🧰 Maintenance</a>
-      <a href="/~kkonark/HW6/index.html">🔍 Search</a>
+      <a href="/~kkonark/HW6/index.php">🔍 Search</a>
       <a href="/~kkonark/HW5/logout.php" style="color:#ef4444;font-weight:bold;">🚪 Logout</a>
       <button id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
     </nav>
@@ -189,49 +189,49 @@ require_once "auth_check.php"; // ✅ Protects page, requires login
       <div class="card">
         <h3>👤 Users</h3>
         <p>Add or update user details including students, staff, or visitors.</p>
-        <a href="insert_user.html">Manage Users →</a>
+        <a href="insert_user.php">Manage Users →</a>
       </div>
 
       <div class="card">
         <h3>💻 Resources</h3>
         <p>Create new system or room resources available for access requests.</p>
-        <a href="insert_resource.html">Add Resource →</a>
+        <a href="insert_resource.php">Add Resource →</a>
       </div>
 
       <div class="card">
         <h3>📩 Requests</h3>
         <p>Monitor or create access requests between users and resources.</p>
-        <a href="insert_request.html">Add Request →</a>
+        <a href="insert_request.php">Add Request →</a>
       </div>
 
       <div class="card">
         <h3>🧾 Access Events</h3>
         <p>Record successful and failed login attempts and room access data.</p>
-        <a href="insert_access_event.html">Add Event →</a>
+        <a href="insert_access_event.php">Add Event →</a>
       </div>
 
       <div class="card">
         <h3>🏢 Rooms</h3>
         <p>Manage physical rooms, capacity, and building details.</p>
-        <a href="insert_room.html">Add Room →</a>
+        <a href="insert_room.php">Add Room →</a>
       </div>
 
       <div class="card">
         <h3>🖥️ System Resources</h3>
         <p>Link resources to host systems or networked infrastructure.</p>
-        <a href="insert_systemres.html">Add System Resource →</a>
+        <a href="insert_systemres.php">Add System Resource →</a>
       </div>
 
       <div class="card">
         <h3>✅ Success Events</h3>
         <p>Record validated access events for audit and reporting.</p>
-        <a href="insert_success_event.html">Add Success Event →</a>
+        <a href="insert_success_event.php">Add Success Event →</a>
       </div>
 
       <div class="card">
         <h3>❌ Failed Events</h3>
         <p>Log rejected access attempts for security review.</p>
-        <a href="insert_failed_event.html">Add Failed Event →</a>
+        <a href="insert_failed_event.php">Add Failed Event →</a>
       </div>
     </div>
   </main>
