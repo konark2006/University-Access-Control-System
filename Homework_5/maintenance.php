@@ -1,5 +1,5 @@
 <?php
-require_once "auth_check.php"; // ✅ Protects page, requires login
+require_once "auth_check.php"; // ✅ Ensures only logged-in admins can access
 ?>
 
 <!DOCTYPE html>
@@ -8,7 +8,7 @@ require_once "auth_check.php"; // ✅ Protects page, requires login
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>UACS Admin Dashboard — Homework 5</title>
-  <link rel="stylesheet" href="./site_style.css?v=13" />
+  <link rel="stylesheet" href="./site_style.css?v=14" />
 
   <style>
     /* ===== UNIVERSAL NAVBAR ===== */
@@ -81,7 +81,7 @@ require_once "auth_check.php"; // ✅ Protects page, requires login
       margin-bottom: 1.5em;
     }
 
-    /* Entity links grid */
+    /* ===== ENTITY GRID ===== */
     .entity-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -99,15 +99,8 @@ require_once "auth_check.php"; // ✅ Protects page, requires login
       transform: translateY(-5px);
       box-shadow: 0 8px 25px rgba(0,0,0,0.12);
     }
-    .card h3 {
-      color: #0052d4;
-      margin-bottom: 0.6rem;
-    }
-    .card p {
-      font-size: 0.95rem;
-      margin-bottom: 1rem;
-      color: #333;
-    }
+    .card h3 { color: #0052d4; margin-bottom: 0.6rem; }
+    .card p { font-size: 0.95rem; margin-bottom: 1rem; color: #333; }
     .card a {
       display: inline-block;
       background: #007bff;
@@ -133,23 +126,10 @@ require_once "auth_check.php"; // ✅ Protects page, requires login
     }
 
     /* ===== DARK MODE ===== */
-    body.dark-mode {
-      background: #0b1728;
-      color: #e2e8f0;
-    }
-    body.dark-mode .card {
-      background: #1e293b;
-      color: #e2e8f0;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.5);
-    }
-    body.dark-mode .uacs-topbar {
-      background: #111b2b;
-    }
-    body.dark-mode footer {
-      background: #111b2b;
-      color: #bbb;
-      border-top: 1px solid #333;
-    }
+    body.dark-mode { background: #0b1728; color: #e2e8f0; }
+    body.dark-mode .card { background: #1e293b; color: #e2e8f0; box-shadow: 0 6px 15px rgba(0,0,0,0.5); }
+    body.dark-mode .uacs-topbar { background: #111b2b; }
+    body.dark-mode footer { background: #111b2b; color: #bbb; border-top: 1px solid #333; }
 
     #theme-toggle {
       border: none;
@@ -164,13 +144,13 @@ require_once "auth_check.php"; // ✅ Protects page, requires login
 </head>
 
 <body>
-  <!-- ===== UNIVERSAL NAV ===== -->
+  <!-- ===== UNIVERSAL NAVBAR ===== -->
   <header class="uacs-topbar">
     <nav class="uacs-nav">
       <a class="logo" href="/~kkonark/">UACS</a>
-      <a href="/~kkonark/HW4/index.php">📘 Access Portal</a>
+      <a href="/~kkonark/HW4/index.html">📘 Access Portal</a>
       <a href="/~kkonark/HW5/maintenance.php" class="active">🧰 Maintenance</a>
-      <a href="/~kkonark/HW6/index.php">🔍 Search</a>
+      <a href="/~kkonark/HW6/index.html">🔍 Search</a>
       <a href="/~kkonark/HW5/logout.php" style="color:#ef4444;font-weight:bold;">🚪 Logout</a>
       <button id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
     </nav>
@@ -181,7 +161,7 @@ require_once "auth_check.php"; // ✅ Protects page, requires login
     <h1>Welcome, <?php echo htmlspecialchars($_SESSION["admin"]); ?> 👋</h1>
     <p class="welcome">
       You are logged in as an <strong>Administrator</strong>.  
-      Use the dashboard below to manage university access control data.
+      Use the dashboard below to manage university access control data securely.
     </p>
 
     <h2>Entity Management</h2>
@@ -237,7 +217,8 @@ require_once "auth_check.php"; // ✅ Protects page, requires login
   </main>
 
   <footer>
-    <p>© 2025 UACS Team | Homework 5 (Security II) | <a href="/~kkonark/HW6/index.html">Search Portal</a></p>
+    <p>© 2025 UACS Team | Homework 5 (Security II)  
+    | <a href="/~kkonark/HW6/index.html">Search Portal</a></p>
   </footer>
 
   <!-- ===== DARK MODE SCRIPT ===== -->
