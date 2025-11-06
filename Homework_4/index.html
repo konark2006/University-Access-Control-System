@@ -1,63 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <style>
-  .uacs-topbar{
-    position:sticky; top:0; z-index:9999;
-    background:#0b1728; border-bottom:1px solid rgba(255,255,255,.08);
-  }
-  .uacs-nav{
-    max-width:1100px; margin:0 auto; padding:10px 16px;
-    display:flex; gap:10px; align-items:center; flex-wrap:wrap;
-  }
-  .uacs-nav a{
-    color:#e2e8f0; text-decoration:none; font:600 14px/1.2 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-    padding:8px 12px; border-radius:10px; transition:background .2s, color .2s, transform .1s;
-  }
-  .uacs-nav a:hover{ background:rgba(255,255,255,.08); transform:translateY(-1px); }
-  .uacs-nav .logo{ margin-right:auto; font-weight:800; letter-spacing:.3px; background:transparent; }
-  @media (prefers-color-scheme: light){
-    .uacs-topbar{ background:#ffffff; border-bottom:1px solid #e5e7eb; }
-    .uacs-nav a{ color:#111827; }
-    .uacs-nav a:hover{ background:#f3f4f6; }
-  }
-  </style>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>UACS — University Access Control System</title>
   <link rel="stylesheet" href="style.css?v=12" />
+
+  <style>
+  /* === UNIVERSAL NAVBAR STYLING === */
+  .uacs-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    background: #0b1728;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+  .uacs-nav {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 10px 16px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .uacs-nav a {
+    color: #e2e8f0;
+    text-decoration: none;
+    font: 600 14px/1.2 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    padding: 8px 12px;
+    border-radius: 10px;
+    transition: background 0.2s, color 0.2s, transform 0.1s;
+  }
+  .uacs-nav a:hover {
+    background: rgba(255,255,255,.08);
+    transform: translateY(-1px);
+  }
+  .uacs-nav .logo {
+    margin-right: auto;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    background: transparent;
+  }
+  @media (prefers-color-scheme: light) {
+    .uacs-topbar { background: #ffffff; border-bottom: 1px solid #e5e7eb; }
+    .uacs-nav a { color: #111827; }
+    .uacs-nav a:hover { background: #f3f4f6; }
+  }
+  </style>
 </head>
 
 <body>
-  <!-- UACS Global Nav -->
+
+  <!-- === UNIVERSAL NAV BAR === -->
   <header class="uacs-topbar">
     <nav class="uacs-nav">
-      <a class="logo" href="../">UACS</a>
-      <a href="./index.html">Requests UI</a>
-      <a href="../HW5/maintenance.html">Admin / Maintenance</a>
-      <a href="../HW6/index.html">Search</a>
+      <a class="logo" href="/~kkonark/">UACS</a>
+      <a href="/~kkonark/HW4/index.html">📘 Access Portal</a>
+      <a href="/~kkonark/HW5/maintenance.php">🧰 Maintenance</a>
+      <a href="/~kkonark/HW6/index.html">🔍 Search Portal</a>
+      <a href="/~kkonark/HW5/logout.php" style="color:#ff4d4d;font-weight:bold;">🚪 Logout</a>
     </nav>
   </header>
-  <!-- ✅ Unified Header -->
+
+  <!-- === MAIN HEADER === -->
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="../HW4/index.html" aria-label="UACS Home">
-        <img class="brand-logo" src="../HW4/img/UACS_logo.png" alt="UACS logo" />
+      <a class="brand" href="index.html" aria-label="UACS Home">
+        <img class="brand-logo" src="img/UACS_logo.png" alt="UACS logo" />
         <span class="brand-text">UACS</span>
       </a>
 
       <nav class="nav">
         <a class="active" href="index.html">Home</a>
-        <a href="imprint.html">Imprint</a>
-        <a href="../HW5/maintenance.html" class="nav-admin">Maintenance</a>
-        <a href="../HW6/index.html" class="nav-search">Search</a>
-
+        <a href="/~kkonark/HW5/maintenance.php" class="nav-admin">Maintenance</a>
+        <a href="/~kkonark/HW6/index.html" class="nav-search">Search</a>
         <button id="theme-toggle" class="btn small-btn" aria-label="Toggle dark mode">🌙</button>
       </nav>
     </div>
   </header>
 
-  <!-- ✅ Hero Section -->
+  <!-- === HERO SECTION === -->
   <section class="hero">
     <h1>University Access Control System</h1>
     <p>
@@ -65,48 +88,48 @@
     </p>
 
     <div class="hero-buttons">
-      <a href="../HW5/maintenance.html" class="btn primary">Admin / Maintenance →</a>
-      <a href="../HW6/index.html" class="btn secondary">Search Portal →</a>
-      <a href="../HW5/insert_request.html" class="btn primary">Access Requests</a>
-      <a href="../HW5/insert_resource.html" class="btn secondary">Manage Resources</a>
-      <a href="../HW5/insert_access_event.html" class="btn success">Audit Events</a>
-      <a href="../HW5/insert_room.html" class="btn info">Room Manager</a>
+      <a href="/~kkonark/HW5/maintenance.php" class="btn primary">Admin / Maintenance →</a>
+      <a href="/~kkonark/HW6/index.html" class="btn secondary">Search Portal →</a>
+      <a href="/~kkonark/HW5/insert_request.html" class="btn primary">Access Requests</a>
+      <a href="/~kkonark/HW5/insert_resource.html" class="btn secondary">Manage Resources</a>
+      <a href="/~kkonark/HW5/insert_access_event.html" class="btn success">Audit Events</a>
+      <a href="/~kkonark/HW5/insert_room.html" class="btn info">Room Manager</a>
     </div>
   </section>
 
-  <!-- ✅ Info Cards -->
+  <!-- === CARDS === -->
   <section class="cards">
     <div class="card">
       <h3>📥 Access Requests</h3>
       <p>Students, staff, and visitors can submit requests for access approval and track their status in real-time.</p>
-      <a href="../HW5/insert_request.html" class="link">Go to Access Requests →</a>
+      <a href="/~kkonark/HW5/insert_request.html" class="link">Go to Access Requests →</a>
     </div>
 
     <div class="card">
       <h3>💻 Resources</h3>
       <p>Register and manage rooms, systems, and assets that require controlled access permissions.</p>
-      <a href="../HW5/insert_resource.html" class="link">Manage Resources →</a>
+      <a href="/~kkonark/HW5/insert_resource.html" class="link">Manage Resources →</a>
     </div>
 
     <div class="card">
       <h3>🔍 Access Events</h3>
       <p>View detailed event logs of access attempts, including successes and failures, for transparency and auditing.</p>
-      <a href="../HW5/insert_access_event.html" class="link">View Events →</a>
+      <a href="/~kkonark/HW5/insert_access_event.html" class="link">View Events →</a>
     </div>
 
     <div class="card">
       <h3>🏫 Room Manager</h3>
       <p>Assign, update, and maintain room information, including capacities and building associations.</p>
-      <a href="../HW5/insert_room.html" class="link">Manage Rooms →</a>
+      <a href="/~kkonark/HW5/insert_room.html" class="link">Manage Rooms →</a>
     </div>
   </section>
 
-  <!-- ✅ Footer -->
+  <!-- === FOOTER === -->
   <footer class="footer">
     <p>© 2025 UACS — <a href="imprint.html">Imprint / Disclaimer</a></p>
   </footer>
 
-  <!-- ✅ Dark Mode Script -->
+  <!-- === DARK MODE SCRIPT === -->
   <script>
     const toggle = document.getElementById("theme-toggle");
     toggle.addEventListener("click", () => {

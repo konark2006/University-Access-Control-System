@@ -4,8 +4,8 @@ require_once "db_connect.php";
 
 // If already logged in, skip login page
 if (isset($_SESSION["admin"])) {
-    header("Location: maintenance.php");
-    exit;
+    header("Location: /~kkonark/");
+    exit();
 }
 
 // Handle login form submission
