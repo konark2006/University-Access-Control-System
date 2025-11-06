@@ -1,14 +1,14 @@
 <?php
-require_once "auth_check.php"; // ✅ Ensures only logged-in admins can access
+require_once "auth_check.php"; // ✅ Protect page — requires login
+require_once "db_connect.php";
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>UACS Admin Dashboard — Homework 5</title>
-  <link rel="stylesheet" href="./site_style.css?v=14" />
+  <link rel="stylesheet" href="./style.css?v=15" />
 
   <style>
     /* ===== UNIVERSAL NAVBAR ===== */
@@ -161,7 +161,7 @@ require_once "auth_check.php"; // ✅ Ensures only logged-in admins can access
     <h1>Welcome, <?php echo htmlspecialchars($_SESSION["admin"]); ?> 👋</h1>
     <p class="welcome">
       You are logged in as an <strong>Administrator</strong>.  
-      Use the dashboard below to manage university access control data securely.
+      Use the dashboard below to securely manage university access control data.
     </p>
 
     <h2>Entity Management</h2>
@@ -175,43 +175,43 @@ require_once "auth_check.php"; // ✅ Ensures only logged-in admins can access
       <div class="card">
         <h3>💻 Resources</h3>
         <p>Create new system or room resources available for access requests.</p>
-        <a href="insert_resource.php">Add Resource →</a>
+        <a href="form_insert_resource.php">Add Resource →</a>
       </div>
 
       <div class="card">
         <h3>📩 Requests</h3>
         <p>Monitor or create access requests between users and resources.</p>
-        <a href="insert_request.php">Add Request →</a>
+        <a href="form_insert_request.php">Add Request →</a>
       </div>
 
       <div class="card">
         <h3>🧾 Access Events</h3>
         <p>Record successful and failed login attempts and room access data.</p>
-        <a href="insert_access_event.php">Add Event →</a>
+        <a href="form_insert_access_event.php">Add Event →</a>
       </div>
 
       <div class="card">
         <h3>🏢 Rooms</h3>
         <p>Manage physical rooms, capacity, and building details.</p>
-        <a href="insert_room.php">Add Room →</a>
+        <a href="form_insert_room.php">Add Room →</a>
       </div>
 
       <div class="card">
         <h3>🖥️ System Resources</h3>
         <p>Link resources to host systems or networked infrastructure.</p>
-        <a href="insert_systemres.php">Add System Resource →</a>
+        <a href="form_insert_systemres.php">Add System Resource →</a>
       </div>
 
       <div class="card">
         <h3>✅ Success Events</h3>
         <p>Record validated access events for audit and reporting.</p>
-        <a href="insert_success_event.php">Add Success Event →</a>
+        <a href="form_insert_success_event.php">Add Success Event →</a>
       </div>
 
       <div class="card">
         <h3>❌ Failed Events</h3>
         <p>Log rejected access attempts for security review.</p>
-        <a href="insert_failed_event.php">Add Failed Event →</a>
+        <a href="form_insert_failed_event.php">Add Failed Event →</a>
       </div>
     </div>
   </main>

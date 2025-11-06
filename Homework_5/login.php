@@ -4,7 +4,7 @@ require_once "db_connect.php";
 
 // If already logged in, skip login page
 if (isset($_SESSION["admin"])) {
-    header("Location: /~kkonark/");
+    header("Location: /~kkonark/HW5/maintenance.php");
     exit();
 }
 
@@ -24,8 +24,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         if (password_verify($pass, $hash)) {
             $_SESSION["admin"] = $user;
-            header("Location: maintenance.php");
-            exit;
+            header("Location: /~kkonark/HW5/maintenance.php");
+            exit();
         } else {
             $error = "❌ Invalid password.";
         }
@@ -44,28 +44,35 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   <style>
     body {
       font-family: "Segoe UI", sans-serif;
-      background: #f5f7fa;
+      background: linear-gradient(135deg, #0b1728, #1e3a8a);
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
+      color: #fff;
     }
     .login-box {
-      background: white;
-      padding: 30px 40px;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-      width: 320px;
+      background: #ffffff;
+      padding: 35px 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      width: 340px;
       text-align: center;
+      color: #111;
     }
-    h2 { color: #0B3D91; margin-bottom: 20px; }
+    h2 {
+      color: #0B3D91;
+      margin-bottom: 20px;
+      font-size: 1.6rem;
+    }
     input {
       width: 90%;
       padding: 10px;
-      margin: 8px 0;
+      margin: 10px 0;
       border-radius: 6px;
       border: 1px solid #ccc;
+      font-size: 1rem;
     }
     button {
       background: #0B3D91;
@@ -77,10 +84,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       margin-top: 10px;
       font-weight: bold;
       width: 100%;
+      font-size: 1rem;
     }
     button:hover { background: #09306d; }
     .error { color: red; margin-bottom: 10px; }
     .message { color: green; margin-bottom: 10px; }
+    footer {
+      margin-top: 15px;
+      font-size: 0.9rem;
+    }
+    footer a {
+      color: #0b3d91;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    footer a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -104,6 +122,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       <input type="password" name="password" placeholder="Password" required><br>
       <button type="submit">Login</button>
     </form>
+
+    <footer>
+      <p>← <a href="/~kkonark/HW4/index.html">Back to UACS Portal</a></p>
+    </footer>
   </div>
 </body>
 </html>

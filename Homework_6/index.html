@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>UACS Search Portal — Homework 6</title>
-  <link rel="stylesheet" href="site_style.css?v=12" />
+  <link rel="stylesheet" href="site_style.css?v=13" />
 
   <style>
     /* === UNIVERSAL NAVBAR === */
@@ -41,10 +41,23 @@
       font-weight: 800;
       letter-spacing: .3px;
     }
+    #theme-toggle {
+      border: none;
+      background: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, color 0.2s ease;
+      color: #e2e8f0;
+      margin-left: auto;
+    }
+    #theme-toggle:hover { transform: scale(1.2); }
+    body.dark-mode #theme-toggle { color: #f1f5f9; }
+
     @media (prefers-color-scheme: light) {
       .uacs-topbar { background: #ffffff; border-bottom: 1px solid #e5e7eb; }
       .uacs-nav a { color: #111827; }
       .uacs-nav a:hover { background: #f3f4f6; }
+      #theme-toggle { color: #0a2540; }
     }
 
     /* === PAGE BODY === */
@@ -98,15 +111,8 @@
       transform: translateY(-6px);
       box-shadow: 0 12px 25px rgba(0,0,0,0.15);
     }
-    .card h3 {
-      color: #0052d4;
-      margin-bottom: 0.8rem;
-    }
-    .card p {
-      color: #333;
-      font-size: 0.95rem;
-      margin-bottom: 1.2rem;
-    }
+    .card h3 { color: #0052d4; margin-bottom: 0.8rem; }
+    .card p { color: #333; font-size: 0.95rem; margin-bottom: 1.2rem; }
 
     /* === BUTTONS === */
     .btn {
@@ -152,20 +158,6 @@
       color: #bbb;
       border-top: 1px solid #333;
     }
-
-    .btn.small-btn {
-      border: none;
-      background: none;
-      font-size: 1.4rem;
-      cursor: pointer;
-      transition: transform 0.2s ease, color 0.2s ease;
-      color: #0a2540;
-    }
-    .btn.small-btn:hover {
-      transform: scale(1.2);
-      color: #007bff;
-    }
-    body.dark-mode .btn.small-btn { color: #f1f5f9; }
   </style>
 </head>
 
@@ -176,8 +168,9 @@
       <a class="logo" href="/~kkonark/">UACS</a>
       <a href="/~kkonark/HW4/index.html">📘 Access Portal</a>
       <a href="/~kkonark/HW5/maintenance.php">🧰 Maintenance</a>
-      <a href="/~kkonark/HW6/index.html">🔍 Search</a>
+      <a href="/~kkonark/HW6/index.html" class="active">🔍 Search</a>
       <a href="/~kkonark/HW5/logout.php" style="color:#ef4444;font-weight:bold;">🚪 Logout</a>
+      <button id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
     </nav>
   </header>
 
@@ -192,19 +185,19 @@
     <div class="card">
       <h3>👤 Search Users</h3>
       <p>Find registered students, staff, admins, and visitors by name or email.</p>
-      <a href="search_user.html" class="btn primary">Go →</a>
+      <a href="/~kkonark/HW6/search_user.html" class="btn primary">Go →</a>
     </div>
 
     <div class="card">
       <h3>🏢 Search Resources</h3>
       <p>Browse rooms, systems, and other campus resources stored in the database.</p>
-      <a href="search_resource.html" class="btn info">Go →</a>
+      <a href="/~kkonark/HW6/search_resource.html" class="btn info">Go →</a>
     </div>
 
     <div class="card">
       <h3>📜 Access Events</h3>
       <p>Review logs of successful or failed access attempts with timestamps and user details.</p>
-      <a href="search_event.html" class="btn success">Go →</a>
+      <a href="/~kkonark/HW6/search_event.html" class="btn success">Go →</a>
     </div>
   </section>
 
@@ -216,12 +209,10 @@
   <!-- === DARK MODE SCRIPT === -->
   <script>
     const toggle = document.getElementById("theme-toggle");
-    if (toggle) {
-      toggle.addEventListener("click", () => {
-        document.body.classList.toggle("dark-mode");
-        toggle.textContent = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
-      });
-    }
+    toggle.addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+      toggle.textContent = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
+    });
   </script>
 </body>
 </html>

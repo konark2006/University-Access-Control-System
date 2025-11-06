@@ -6,7 +6,7 @@ require_once "db_connect.php";
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Add User — UACS</title>
+  <title>Add Room — UACS</title>
   <link rel="stylesheet" href="style.css?v=15">
 </head>
 <body>
@@ -18,15 +18,17 @@ require_once "db_connect.php";
     </nav>
   </header>
 
-  <h1>Add User</h1>
-  <form method="post" action="insert_user.php">
-    <label>Name:</label>
-    <input type="text" name="name" required><br>
-    <label>Email:</label>
-    <input type="email" name="email" required><br>
-    <label>Role:</label>
-    <input type="text" name="role" required><br>
-    <button type="submit">Add User</button>
+  <h1>Add Room</h1>
+  <form method="post" action="insert_room.php">
+    <label>Resource ID:</label>
+    <input type="number" name="resource_id" required><br>
+    <label>Building:</label>
+    <input type="text" name="building" required><br>
+    <label>Room No:</label>
+    <input type="text" name="room_no" required><br>
+    <label>Capacity:</label>
+    <input type="number" name="capacity" required><br>
+    <button type="submit">Add Room</button>
   </form>
 
   <footer><a href="maintenance.php">⬅ Back to Dashboard</a></footer>
