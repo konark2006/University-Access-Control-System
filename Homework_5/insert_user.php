@@ -1,21 +1,16 @@
 <?php
-session_start();
-if (!isset($_SESSION["admin"])) {
-    // Not logged in → redirect to login page
-    header("Location: login.php?error=unauthorized");
-    exit;
-}
 require_once "auth_check.php";
 include 'db_connect.php';
-$name = $_POST['full_name'];
-$email = $_POST['email'];
 
-$sql = "INSERT INTO UserAccount(full_name, email) VALUES ('$name', '$email')";
-if ($conn->query($sql)) {
-  echo "✅ User added successfully!";
-} else {
-  echo "❌ Error: " . $conn->error;
-}
+$name = $_POST['name'];
+$email = $_POST['email'];
+$role = $_POST['role'];
+
+$sql = "INSERT INTO User(name, email, role) VALUES ('$name', '$email', '$role')";
+if ($conn->query($sql)) echo "✅ User added!";
+else echo "❌ Error: " . $conn->error;
+
 $conn->close();
 ?>
-<a href='maintenance.html'>Back</a>
+<br>
+<a href='maintenance.php'>Back</a>

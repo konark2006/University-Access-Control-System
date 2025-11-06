@@ -1,73 +1,51 @@
 <?php
-session_start();
-if (!isset($_SESSION["admin"])) {
-    header("Location: login.php?error=unauthorized");
-    exit;
-}
+require_once "auth_check.php";
 ?>
-
-<h2>Welcome, <?php echo htmlspecialchars($_SESSION["admin"]); ?> 👋</h2>
-<a href="logout.php" style="color:red;font-weight:bold;">Logout</a>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <style>
-  .uacs-topbar{
-    position:sticky; top:0; z-index:9999;
-    background:#0b1728; border-bottom:1px solid rgba(255,255,255,.08);
-  }
-  .uacs-nav{
-    max-width:1100px; margin:0 auto; padding:10px 16px;
-    display:flex; gap:10px; align-items:center; flex-wrap:wrap;
-  }
-  .uacs-nav a{
-    color:#e2e8f0; text-decoration:none; font:600 14px/1.2 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-    padding:8px 12px; border-radius:10px; transition:background .2s, color .2s, transform .1s;
-  }
-  .uacs-nav a:hover{ background:rgba(255,255,255,.08); transform:translateY(-1px); }
-  .uacs-nav .logo{ margin-right:auto; font-weight:800; letter-spacing:.3px; background:transparent; }
-  @media (prefers-color-scheme: light){
-    .uacs-topbar{ background:#ffffff; border-bottom:1px solid #e5e7eb; }
-    .uacs-nav a{ color:#111827; }
-    .uacs-nav a:hover{ background:#f3f4f6; }
-  }
-  </style>
   <meta charset="UTF-8">
   <title>UACS Maintenance Dashboard</title>
   <link rel="stylesheet" href="./site_style.css?v=11" />
+  <style>
+    .uacs-topbar{
+      position:sticky; top:0; z-index:9999;
+      background:#0b1728; border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .uacs-nav{
+      max-width:1100px; margin:0 auto; padding:10px 16px;
+      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+    }
+    .uacs-nav a{
+      color:#e2e8f0; text-decoration:none; font:600 14px/1.2 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      padding:8px 12px; border-radius:10px; transition:background .2s, color .2s, transform .1s;
+    }
+    .uacs-nav a:hover{ background:rgba(255,255,255,.08); transform:translateY(-1px); }
+    .uacs-nav .logo{ margin-right:auto; font-weight:800; letter-spacing:.3px; background:transparent; }
+    @media (prefers-color-scheme: light){
+      .uacs-topbar{ background:#ffffff; border-bottom:1px solid #e5e7eb; }
+      .uacs-nav a{ color:#111827; }
+      .uacs-nav a:hover{ background:#f3f4f6; }
+    }
+  </style>
 </head>
 
 <body>
-  <!-- UACS Global Nav -->
+  <!-- ✅ Global Navigation -->
   <header class="uacs-topbar">
     <nav class="uacs-nav">
       <a class="logo" href="../">UACS</a>
       <a href="../HW4/index.html">Requests UI</a>
-      <a href="./maintenance.html">Admin / Maintenance</a>
+      <a href="./maintenance.php">Admin / Maintenance</a>
       <a href="../HW6/index.html">Search</a>
-      <a href="logout.php" class="btn secondary">Logout</a>
+      <a href="logout.php" style="color:#ef4444;font-weight:bold;">Logout</a>
     </nav>
   </header>
 
-  <!-- ✅ Unified Header + Navigation -->
-  <header class="site-header">
-    <a href="../HW4/index.html" class="brand">
-      <img src="../HW4/img/UACS_logo.png" alt="UACS logo" height="40">
-      <span>UACS</span>
-    </a>
-
-    <nav>
-      <a href="../HW4/index.html">🏠 Home</a>
-      <a href="../HW5/maintenance.html">⚙️ Maintenance</a>
-      <a href="../HW6/index.html">🔍 Search</a>
-    </nav>
-  </header>
-
-  <!-- ✅ Main Page Content -->
   <main>
-    <h1>UACS Maintenance</h1>
-    <h2>Entities</h2>
+    <h1>Welcome, <?php echo htmlspecialchars($_SESSION["admin"]); ?> 👋</h1>
+    <h2>UACS Maintenance</h2>
     <ul>
       <li><a href="insert_user.html">Add User</a></li>
       <li><a href="insert_resource.html">Add Resource</a></li>
@@ -81,7 +59,7 @@ if (!isset($_SESSION["admin"])) {
   </main>
 
   <footer>
-    <p>© 2025 UACS Team | Homework 5</p>
+    <p>© 2025 UACS Team | Homework 5 (Security II)</p>
   </footer>
 </body>
 </html>
