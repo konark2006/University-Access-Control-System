@@ -24,8 +24,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         if (password_verify($pass, $hash)) {
             $_SESSION["admin"] = $user;
-            header("Location: maintenance.html");  // ✅ Redirect to maintenance
-            exit();
+            header("Location: maintenance.php");
+            exit;
         } else {
             $error = "❌ Invalid password.";
         }
@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       padding: 30px 40px;
       border-radius: 12px;
       box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-      width: 300px;
+      width: 320px;
       text-align: center;
     }
     h2 { color: #0B3D91; margin-bottom: 20px; }
@@ -80,13 +80,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
     button:hover { background: #09306d; }
     .error { color: red; margin-bottom: 10px; }
+    .message { color: green; margin-bottom: 10px; }
   </style>
 </head>
 <body>
   <div class="login-box">
     <h2>🔒 Admin Login</h2>
+
     <?php if (isset($error)): ?>
       <p class="error"><?= htmlspecialchars($error) ?></p>
+    <?php endif; ?>
+
+    <?php if (isset($_GET["msg"]) && $_GET["msg"] === "loggedout"): ?>
+      <p class="message">✅ You have logged out successfully.</p>
+    <?php endif; ?>
+
+    <?php if (isset($_GET["error"]) && $_GET["error"] === "unauthorized"): ?>
+      <p class="error">⚠️ Please log in to access that page.</p>
     <?php endif; ?>
 
     <form method="post">
@@ -94,14 +104,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       <input type="password" name="password" placeholder="Password" required><br>
       <button type="submit">Login</button>
     </form>
-    <?php
-    if (isset($_GET["msg"]) && $_GET["msg"] === "loggedout") {
-        echo "<p style='color:green;'>✅ You have logged out successfully.</p>";
-    }
-    if (isset($_GET["error"]) && $_GET["error"] === "unauthorized") {
-        echo "<p style='color:red;'>⚠️ Please log in to access that page.</p>";
-    }
-    ?>
   </div>
 </body>
 </html>
