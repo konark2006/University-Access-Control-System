@@ -168,16 +168,3 @@ README_HW7.md
 ```
 
 ---
-
-## 📝 Submission Notes
-
-Make sure your GitHub repository contains:
-
-- All the Python scripts
-- The generated PNG charts
-- The README (this file)
-- The `logs/` directory for demonstration (even though in production logs wouldn't be committed)
-
----
-
-**This demonstrates an understanding of web security monitoring, log analysis, and basic intrusion detection concepts — all essential for cybersecurity and GRC work.**
