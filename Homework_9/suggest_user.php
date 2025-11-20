@@ -1,21 +1,25 @@
 <?php
 header("Content-Type: application/json");
+require_once "../Homework_5/db_connect.php";   // adjust if needed
 
-require_once "../Homework_5/db_connect.php";
+$term = isset($_GET["term"]) ? $_GET["term"] : "";
 
-$term = isset($_GET['term']) ? $_GET['term'] : '';
+if ($term === "") {
+    echo json_encode([]);
+    exit;
+}
 
-$stmt = $conn->prepare("
+$sql = "
     SELECT full_name 
     FROM UserAccount
     WHERE full_name LIKE CONCAT('%', ?, '%')
-    ORDER BY full_name
+       OR email LIKE CONCAT('%', ?, '%')
     LIMIT 10
-");
+";
 
-$stmt->bind_param("s", $term);
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("ss", $term, $term);
 $stmt->execute();
-
 $result = $stmt->get_result();
 
 $suggestions = [];
