@@ -1,45 +1,25 @@
 <?php
-require_once "db_connect.php";
+header("Content-Type: application/json");
+require_once "../Homework_6/db_connect.php";
 
-$q = $_GET["term"] ?? "";
+$term = $_GET["term"] ?? "";
 
-$suggestions = [];
+$sql = "
+    SELECT event_id
+    FROM Access_Event
+    WHERE event_id LIKE CONCAT('%', ?, '%')
+    LIMIT 10
+";
 
-/* Search by Event ID */
-$stmt = $conn->prepare("
-  SELECT CONCAT('Event #', event_id)
-  FROM Access_Event
-  WHERE event_id LIKE CONCAT('%', ?, '%')
-  LIMIT 10
-");
-$stmt->bind_param("s", $q);
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $term);
 $stmt->execute();
-$stmt->bind_result($res1);
-while ($stmt->fetch()) $suggestions[] = $res1;
+$result = $stmt->get_result();
 
-/* Search by User */
-$stmt = $conn->prepare("
-  SELECT CONCAT('User ', user_id)
-  FROM Access_Event
-  WHERE user_id LIKE CONCAT('%', ?, '%')
-  LIMIT 10
-");
-$stmt->bind_param("s", $q);
-$stmt->execute();
-$stmt->bind_result($res2);
-while ($stmt->fetch()) $suggestions[] = $res2;
+$data = [];
+while ($row = $result->fetch_assoc()) {
+    $data[] = $row["event_id"];
+}
 
-/* Search by Resource */
-$stmt = $conn->prepare("
-  SELECT CONCAT('Resource ', resource_id)
-  FROM Access_Event
-  WHERE resource_id LIKE CONCAT('%', ?, '%')
-  LIMIT 10
-");
-$stmt->bind_param("s", $q);
-$stmt->execute();
-$stmt->bind_result($res3);
-while ($stmt->fetch()) $suggestions[] = $res3;
-
-echo json_encode($suggestions);
+echo json_encode($data);
 ?>

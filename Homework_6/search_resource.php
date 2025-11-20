@@ -1,23 +1,47 @@
 <?php
-include 'db_connect.php';
-$name = "%" . ($_GET['name'] ?? '') . "%";
+require_once "db_connect.php";
 
-$sql = "SELECT resource_id, name FROM Resource WHERE name LIKE ?";
+$name = isset($_GET['name']) ? $_GET['name'] : '';
+
+$sql = "
+    SELECT resource_id, name, relation
+    FROM Resource
+    WHERE name LIKE CONCAT('%', ?, '%')
+";
+
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $name);
 $stmt->execute();
-$res = $stmt->get_result();
 
-echo "<h2>Resource Results</h2>";
-if ($res->num_rows > 0) {
-  echo "<ul>";
-  while ($row = $res->fetch_assoc()) {
-    echo "<li><a href='detail_resource.php?id=" . $row['resource_id'] . "'>"
-         . htmlspecialchars($row['name']) . "</a></li>";
-  }
-  echo "</ul>";
+$result = $stmt->get_result();
+?>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Resource Search Results</title>
+  <link rel="stylesheet" href="site_style.css">
+</head>
+<body>
+<h2>Resource Search Results</h2>
+
+<?php
+if ($result->num_rows === 0) {
+    echo "<p>No resources found.</p>";
 } else {
-  echo "<p>No resources found.</p>";
+    echo "<table border='1' cellpadding='10'>
+            <tr><th>ID</th><th>Name</th><th>Relation</th></tr>";
+    while ($row = $result->fetch_assoc()) {
+        echo "<tr>
+                <td>{$row['resource_id']}</td>
+                <td>{$row['name']}</td>
+                <td>{$row['relation']}</td>
+              </tr>";
+    }
+    echo "</table>";
 }
+
+$stmt->close();
 $conn->close();
 ?>
+</body>
+</html>

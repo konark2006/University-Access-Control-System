@@ -1,22 +1,25 @@
 <?php
-require_once "db_connect.php";
+header("Content-Type: application/json");
+require_once "../Homework_6/db_connect.php";
 
-$q = $_GET["term"] ?? "";
+$term = $_GET["term"] ?? "";
 
-$stmt = $conn->prepare("
-  SELECT name 
-  FROM Resource
-  WHERE name LIKE CONCAT('%', ?, '%')
-  LIMIT 10
-");
-$stmt->bind_param("s", $q);
+$sql = "
+    SELECT name
+    FROM Resource
+    WHERE name LIKE CONCAT('%', ?, '%')
+    LIMIT 10
+";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $term);
 $stmt->execute();
-$stmt->bind_result($result);
+$result = $stmt->get_result();
 
-$suggestions = [];
-while ($stmt->fetch()) {
-    $suggestions[] = $result;
+$data = [];
+while ($row = $result->fetch_assoc()) {
+    $data[] = $row["name"];
 }
 
-echo json_encode($suggestions);
+echo json_encode($data);
 ?>

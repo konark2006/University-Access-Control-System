@@ -2,12 +2,22 @@
 <html>
 <head>
   <title>Search Resources — UACS</title>
-  <link rel="stylesheet" href="site_style.css">
 
   <!-- jQuery + jQuery UI -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+  <link rel="stylesheet" href="site_style.css">
+
+  <script>
+    $(function () {
+      $("#resource-search").autocomplete({
+        source: "https://clabsql.clamv.constructor.university/~kkonark/Homework_9/suggest_resource.php",
+        minLength: 1
+      });
+    });
+  </script>
 </head>
 
 <body>
@@ -15,18 +25,8 @@
 
   <form action="search_resource.php" method="get">
     <label>Enter resource name:</label>
-    <input type="text" id="resource-search" name="name" placeholder="e.g. Room 101 or Server X">
+    <input type="text" id="resource-search" name="name" placeholder="e.g. Room A, Server X">
     <button type="submit">Search</button>
   </form>
-
-  <script>
-    $(function() {
-      $("#resource-search").autocomplete({
-        source: "../Homework_9/suggest_resource.php",
-        minLength: 1
-      });
-    });
-  </script>
-
 </body>
 </html>
