@@ -2,7 +2,7 @@
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 header("Content-Type: application/json");
-require_once "../Homework_6/db_connect.php";  // correct path for your structure
+require_once "../HW6/db_connect.php";
 
 $term = isset($_GET["term"]) ? $_GET["term"] : "";
 
