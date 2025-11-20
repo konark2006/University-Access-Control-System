@@ -1,22 +1,26 @@
 <?php
-require_once "db_connect.php";
+header("Content-Type: application/json");
 
-$q = $_GET["term"] ?? "";
+require_once "../Homework_5/db_connect.php";
+
+$term = isset($_GET['term']) ? $_GET['term'] : '';
 
 $stmt = $conn->prepare("
-  SELECT CONCAT(name, ' (', email, ')') 
-  FROM User
-  WHERE name LIKE CONCAT('%', ?, '%')
-     OR email LIKE CONCAT('%', ?, '%')
-  LIMIT 10
+    SELECT full_name 
+    FROM UserAccount
+    WHERE full_name LIKE CONCAT('%', ?, '%')
+    ORDER BY full_name
+    LIMIT 10
 ");
-$stmt->bind_param("ss", $q, $q);
+
+$stmt->bind_param("s", $term);
 $stmt->execute();
-$stmt->bind_result($result);
+
+$result = $stmt->get_result();
 
 $suggestions = [];
-while ($stmt->fetch()) {
-    $suggestions[] = $result;
+while ($row = $result->fetch_assoc()) {
+    $suggestions[] = $row["full_name"];
 }
 
 echo json_encode($suggestions);
