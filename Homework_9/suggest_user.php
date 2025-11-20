@@ -1,6 +1,6 @@
 <?php
 header("Content-Type: application/json");
-require_once "../Homework_5/db_connect.php";   // adjust if needed
+require_once "../Homework_6/db_connect.php";   // adjust if needed
 
 $term = isset($_GET["term"]) ? $_GET["term"] : "";
 
