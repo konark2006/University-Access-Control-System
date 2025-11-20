@@ -3,17 +3,30 @@
 <head>
   <title>Search Events — UACS</title>
   <link rel="stylesheet" href="site_style.css">
+
+  <!-- jQuery + jQuery UI -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 </head>
+
 <body>
-  <h2>Search Events</h2>
+  <h2>🔍 Search Events</h2>
+
   <form action="search_event.php" method="get">
-    <label>Filter by outcome:</label>
-    <select name="outcome">
-      <option value="">All</option>
-      <option value="SUCCESS">Success</option>
-      <option value="FAILED">Failed</option>
-    </select>
+    <label>Enter event ID or user ID:</label>
+    <input type="text" id="event-search" name="event" placeholder="e.g. 12 or 57">
     <button type="submit">Search</button>
   </form>
+
+  <script>
+    $(function() {
+      $("#event-search").autocomplete({
+        source: "../Homework_9/suggest_event.php",
+        minLength: 1
+      });
+    });
+  </script>
+
 </body>
 </html>

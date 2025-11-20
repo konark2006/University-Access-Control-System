@@ -3,13 +3,30 @@
 <head>
   <title>Search Users — UACS</title>
   <link rel="stylesheet" href="site_style.css">
+
+  <!-- jQuery + jQuery UI -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 </head>
+
 <body>
   <h2>🔍 Search Users</h2>
+
   <form action="search_user.php" method="get">
     <label>Enter name or email:</label>
-    <input type="text" name="query" placeholder="e.g. Alice or alice@uni.com">
+    <input type="text" id="user-search" name="query" placeholder="e.g. Alice or alice@uni.de">
     <button type="submit">Search</button>
   </form>
+
+  <script>
+    $(function() {
+      $("#user-search").autocomplete({
+        source: "../Homework_9/suggest_user.php",
+        minLength: 1
+      });
+    });
+  </script>
+
 </body>
 </html>
