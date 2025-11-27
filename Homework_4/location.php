@@ -28,12 +28,29 @@ function getClientIP() {
 
 $clientIP = getClientIP();
 
-// Check if IP is localhost or private
-$isLocalhost = in_array($clientIP, ['127.0.0.1', '::1', 'localhost', 'UNKNOWN']) || 
-               strpos($clientIP, '127.') === 0 ||
-               strpos($clientIP, '192.168.') === 0 ||
-               strpos($clientIP, '10.') === 0 ||
-               strpos($clientIP, '172.') === 0;
+// Check if IP is actually localhost (not just private IP)
+// Private IPs can still be geolocated, but localhost cannot
+function isLocalhostIP($ip) {
+    if (empty($ip) || $ip === 'UNKNOWN') return true;
+    if (in_array($ip, ['127.0.0.1', '::1', 'localhost'])) return true;
+    if (strpos($ip, '127.') === 0) return true;
+    return false;
+}
+
+// Check if IP is in private range (but still try to geolocate)
+function isPrivateIP($ip) {
+    if (empty($ip)) return true;
+    // 192.168.0.0/16
+    if (strpos($ip, '192.168.') === 0) return true;
+    // 10.0.0.0/8
+    if (strpos($ip, '10.') === 0) return true;
+    // 172.16.0.0/12 (172.16.0.0 to 172.31.255.255)
+    if (preg_match('/^172\.(1[6-9]|2[0-9]|3[0-1])\./', $ip)) return true;
+    return false;
+}
+
+$isLocalhost = isLocalhostIP($clientIP);
+$isPrivate = isPrivateIP($clientIP);
 
 // Fetch geo location from ipinfo.io
 $geoData = null;
@@ -42,13 +59,8 @@ $lng = null;
 $error = null;
 $isDemo = false;
 
-if ($isLocalhost) {
-    // For localhost/private IPs, use demo location
-    $lat = 53.0793; // Demo: Bremen, Germany
-    $lng = 8.8017;
-    $isDemo = true;
-    $error = "Note: You're accessing from localhost/private network. This is a demo location. On a public server, your actual IP location will be shown.";
-} else if ($clientIP && $clientIP !== 'UNKNOWN') {
+// Always try to get location, even for private IPs (they might still work)
+if ($clientIP && $clientIP !== 'UNKNOWN' && !$isLocalhost) {
     // Clean IP address (remove any whitespace)
     $cleanIP = trim($clientIP);
     
@@ -105,11 +117,23 @@ if ($isLocalhost) {
         $error = "Failed to fetch location data (HTTP {$httpCode})";
         $lat = 53.0793;
         $lng = 8.8017;
+        if ($isPrivate) {
+            $isDemo = true;
+            $error .= " - Private IP detected, using demo location";
+        }
     }
 } else {
-    $error = "Could not determine IP address";
-    $lat = 53.0793;
-    $lng = 8.8017;
+    // Fallback: localhost or unknown IP
+    if ($isLocalhost) {
+        $lat = 53.0793; // Demo: Bremen, Germany
+        $lng = 8.8017;
+        $isDemo = true;
+        $error = "Note: You're accessing from localhost. This is a demo location. On a real server, your actual IP location will be shown.";
+    } else {
+        $error = "Could not determine IP address";
+        $lat = 53.0793;
+        $lng = 8.8017;
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -246,8 +270,18 @@ if ($isLocalhost) {
     
     <div class="map-info">
       <strong>IP Address:</strong> <?php echo htmlspecialchars($clientIP); ?><br>
+      <?php 
+      // Debug info (can be removed later)
+      $debugInfo = [];
+      if (isset($_SERVER['REMOTE_ADDR'])) $debugInfo[] = "REMOTE_ADDR: " . $_SERVER['REMOTE_ADDR'];
+      if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) $debugInfo[] = "X-Forwarded-For: " . $_SERVER['HTTP_X_FORWARDED_FOR'];
+      if (isset($_SERVER['HTTP_CLIENT_IP'])) $debugInfo[] = "Client-IP: " . $_SERVER['HTTP_CLIENT_IP'];
+      ?>
+      <?php if (!empty($debugInfo)): ?>
+        <small style="color: #6b7280; font-size: 0.85em;">Debug: <?php echo htmlspecialchars(implode(' | ', $debugInfo)); ?></small><br>
+      <?php endif; ?>
       <?php if ($isDemo): ?>
-        <span style="color: #f59e0b;">ℹ️ <strong>Demo Mode:</strong> Localhost detected</span><br>
+        <span style="color: #f59e0b;">ℹ️ <strong>Demo Mode:</strong> <?php echo $isLocalhost ? 'Localhost detected' : 'Private IP or API failed'; ?></span><br>
       <?php elseif ($geoData && isset($geoData['city'])): ?>
         <strong>Location:</strong> <?php echo htmlspecialchars($geoData['city']); ?>
         <?php if (isset($geoData['region'])): ?>, <?php echo htmlspecialchars($geoData['region']); ?><?php endif; ?>
