@@ -318,6 +318,7 @@ if (!is_numeric($lat) || !is_numeric($lng) || ($lat == 0 && $lng == 0)) {
     </div>
     
     <div id="map"></div>
+    <div id="geo-status" style="text-align: center; margin-top: 1rem; color: #6b7280; font-size: 0.9em;"></div>
   </div>
 
   <!-- === FOOTER === -->
@@ -335,15 +336,53 @@ if (!is_numeric($lat) || !is_numeric($lng) || ($lat == 0 && $lng == 0)) {
     var lat = <?php echo floatval($lat); ?>;
     var lng = <?php echo floatval($lng); ?>;
     var clientIP = <?php echo json_encode($clientIP); ?>;
+    var hasValidLocation = <?php echo ($lat != 20 && $lng != 0 && $lat != 0 && $lng != 0) ? 'true' : 'false'; ?>;
+    var map, marker;
+    var geoStatusEl = document.getElementById('geo-status');
     
-    // Validate coordinates
+    // Function to update map with coordinates
+    function updateMapLocation(newLat, newLng, source) {
+      if (!map) {
+        // Initialize map if not already created
+        map = L.map('map').setView([newLat, newLng], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          maxZoom: 19
+        }).addTo(map);
+      } else {
+        // Update existing map
+        map.setView([newLat, newLng], 13);
+      }
+      
+      // Remove old marker if exists
+      if (marker) {
+        map.removeLayer(marker);
+      }
+      
+      // Add new marker
+      marker = L.marker([newLat, newLng]).addTo(map);
+      var popupContent = '<div style="text-align: center; padding: 8px;">' +
+        '<strong style="font-size: 16px; color: #0B3D91;">📍 Your Location</strong><br>' +
+        '<span style="font-size: 14px; color: #374151;">IP: <code>' + clientIP + '</code></span><br>' +
+        '<span style="font-size: 12px; color: #6b7280;">Coordinates: ' + newLat.toFixed(4) + ', ' + newLng.toFixed(4) + '</span><br>' +
+        '<span style="font-size: 11px; color: #059669;">Source: ' + source + '</span></div>';
+      marker.bindPopup(popupContent).openPopup();
+      
+      // Update status
+      if (geoStatusEl) {
+        geoStatusEl.innerHTML = '<span style="color: #059669;">✅ Location detected via ' + source + '</span>';
+      }
+    }
+    
+    // Validate coordinates and initialize map
     if (isNaN(lat) || isNaN(lng) || lat < -90 || lat > 90 || lng < -180 || lng > 180) {
       console.error('Invalid coordinates:', lat, lng);
-      document.getElementById('map').innerHTML = '<div style="padding: 2rem; text-align: center; color: #dc2626;"><strong>Error:</strong> Invalid coordinates. Please refresh the page.</div>';
+      document.getElementById('map').innerHTML = '<div style="padding: 2rem; text-align: center; color: #dc2626;"><strong>Error:</strong> Invalid coordinates. Trying browser geolocation...</div>';
+      hasValidLocation = false;
     } else {
       try {
         // Create map instance
-        var map = L.map('map').setView([lat, lng], 13);
+        map = L.map('map').setView([lat, lng], 13);
         
         // Add OpenStreetMap tile layer
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -352,7 +391,7 @@ if (!is_numeric($lat) || !is_numeric($lng) || ($lat == 0 && $lng == 0)) {
         }).addTo(map);
         
         // Add marker with IP address callout
-        var marker = L.marker([lat, lng]).addTo(map);
+        marker = L.marker([lat, lng]).addTo(map);
         var popupContent = '<div style="text-align: center; padding: 8px;">' +
           '<strong style="font-size: 16px; color: #0B3D91;">📍 Your Location</strong><br>' +
           '<span style="font-size: 14px; color: #374151;">IP: <code>' + clientIP + '</code></span><br>' +
@@ -363,9 +402,60 @@ if (!is_numeric($lat) || !is_numeric($lng) || ($lat == 0 && $lng == 0)) {
         map.on('tileerror', function(error, tile) {
           console.warn('Map tile error:', error);
         });
+        
+        // If we don't have a valid location from IP, try browser geolocation
+        if (!hasValidLocation) {
+          if (geoStatusEl) {
+            geoStatusEl.innerHTML = '<span style="color: #f59e0b;">⏳ IP-based location unavailable. Requesting browser location...</span>';
+          }
+        } else {
+          if (geoStatusEl) {
+            geoStatusEl.innerHTML = '<span style="color: #059669;">✅ Location detected via IP address</span>';
+          }
+        }
       } catch (error) {
         console.error('Map initialization error:', error);
         document.getElementById('map').innerHTML = '<div style="padding: 2rem; text-align: center; color: #dc2626;"><strong>Error:</strong> Failed to load map. Please check your internet connection and refresh the page.</div>';
+      }
+    }
+    
+    // Try browser geolocation if IP-based location failed or is default
+    if (!hasValidLocation && navigator.geolocation) {
+      if (geoStatusEl) {
+        geoStatusEl.innerHTML = '<span style="color: #f59e0b;">⏳ Requesting your location permission...</span>';
+      }
+      
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
+          // Success - got browser location
+          var browserLat = position.coords.latitude;
+          var browserLng = position.coords.longitude;
+          updateMapLocation(browserLat, browserLng, 'Browser Geolocation');
+        },
+        function(error) {
+          // Failed to get browser location
+          console.error('Geolocation error:', error);
+          if (geoStatusEl) {
+            var errorMsg = 'Unable to get location';
+            if (error.code === 1) {
+              errorMsg = 'Location permission denied. Please allow location access.';
+            } else if (error.code === 2) {
+              errorMsg = 'Location unavailable.';
+            } else if (error.code === 3) {
+              errorMsg = 'Location request timed out.';
+            }
+            geoStatusEl.innerHTML = '<span style="color: #dc2626;">⚠️ ' + errorMsg + '</span>';
+          }
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0
+        }
+      );
+    } else if (!hasValidLocation && !navigator.geolocation) {
+      if (geoStatusEl) {
+        geoStatusEl.innerHTML = '<span style="color: #dc2626;">⚠️ Browser geolocation not supported. IP-based location unavailable.</span>';
       }
     }
     
