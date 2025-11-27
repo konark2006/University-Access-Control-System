@@ -276,25 +276,45 @@ if ($isLocalhost) {
     const lat = <?php echo $lat; ?>;
     const lng = <?php echo $lng; ?>;
     const clientIP = <?php echo json_encode($clientIP); ?>;
+    const isDemo = <?php echo $isDemo ? 'true' : 'false'; ?>;
     
-    // Create map instance
-    const map = L.map('map').setView([lat, lng], 13);
-    
-    // Add OpenStreetMap tile layer
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      maxZoom: 19
-    }).addTo(map);
-    
-    // Add marker with IP address callout
-    const marker = L.marker([lat, lng]).addTo(map);
-    marker.bindPopup(`
-      <div style="text-align: center; padding: 8px;">
-        <strong style="font-size: 16px; color: #0B3D91;">📍 Your Location</strong><br>
-        <span style="font-size: 14px; color: #374151;">IP: <code>${clientIP}</code></span><br>
-        <span style="font-size: 12px; color: #6b7280;">Coordinates: ${lat.toFixed(4)}, ${lng.toFixed(4)}</span>
-      </div>
-    `).openPopup();
+    // Validate coordinates before initializing map
+    if (isNaN(lat) || isNaN(lng) || lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+      console.error('Invalid coordinates:', lat, lng);
+      document.getElementById('map').innerHTML = '<div style="padding: 2rem; text-align: center; color: #dc2626;"><strong>Error:</strong> Invalid coordinates. Please refresh the page.</div>';
+    } else {
+      try {
+        // Create map instance
+        const map = L.map('map').setView([lat, lng], 13);
+        
+        // Add OpenStreetMap tile layer with error handling
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          maxZoom: 19,
+          errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
+        }).addTo(map);
+        
+        // Add marker with IP address callout
+        const marker = L.marker([lat, lng]).addTo(map);
+        const popupContent = `
+          <div style="text-align: center; padding: 8px;">
+            <strong style="font-size: 16px; color: #0B3D91;">📍 Your Location</strong><br>
+            <span style="font-size: 14px; color: #374151;">IP: <code>${clientIP}</code></span><br>
+            <span style="font-size: 12px; color: #6b7280;">Coordinates: ${lat.toFixed(4)}, ${lng.toFixed(4)}</span>
+            ${isDemo ? '<br><span style="font-size: 11px; color: #f59e0b;">⚠️ Demo Mode</span>' : ''}
+          </div>
+        `;
+        marker.bindPopup(popupContent).openPopup();
+        
+        // Handle map errors
+        map.on('tileerror', function(error, tile) {
+          console.warn('Map tile error:', error);
+        });
+      } catch (error) {
+        console.error('Map initialization error:', error);
+        document.getElementById('map').innerHTML = '<div style="padding: 2rem; text-align: center; color: #dc2626;"><strong>Error:</strong> Failed to load map. Please check your internet connection and refresh the page.</div>';
+      }
+    }
     
     // Dark mode toggle
     const toggle = document.getElementById("theme-toggle");
