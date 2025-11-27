@@ -50,8 +50,12 @@ if (!$isLocalhost && $clientIP !== 'UNKNOWN') {
     $cleanIP = trim($clientIP);
     $url = "https://ipinfo.io/{$cleanIP}/json";
     
-    // Use cURL to fetch location
+    // Try to fetch location using cURL or file_get_contents
+    $response = false;
+    $httpCode = 0;
+    
     if (function_exists('curl_init')) {
+        // Use cURL if available
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -68,36 +72,53 @@ if (!$isLocalhost && $clientIP !== 'UNKNOWN') {
         
         if ($curlError) {
             $error = "Network error: " . htmlspecialchars($curlError);
-            $isDemo = true;
-        } else if ($httpCode === 200 && $response) {
-            $geoData = json_decode($response, true);
-            if ($geoData && isset($geoData['loc'])) {
-                $coords = explode(',', $geoData['loc']);
-                if (count($coords) === 2) {
-                    $lat = floatval(trim($coords[0]));
-                    $lng = floatval(trim($coords[1]));
-                    
-                    // Validate coordinates
-                    if ($lat < -90 || $lat > 90 || $lng < -180 || $lng > 180) {
-                        $error = "Invalid coordinates received";
-                        $lat = 53.0793;
-                        $lng = 8.8017;
-                        $isDemo = true;
-                    }
-                } else {
-                    $error = "Invalid location format";
+            $response = false;
+        }
+    } else if (ini_get('allow_url_fopen')) {
+        // Fallback to file_get_contents if cURL is not available
+        $context = stream_context_create([
+            'http' => [
+                'timeout' => 10,
+                'user_agent' => 'Mozilla/5.0 (compatible; UACS Location Service)',
+                'ignore_errors' => true
+            ]
+        ]);
+        
+        $response = @file_get_contents($url, false, $context);
+        if ($response !== false) {
+            $httpCode = 200; // file_get_contents doesn't return HTTP code, assume success if we got data
+        }
+    } else {
+        $error = "cURL not available and allow_url_fopen is disabled";
+        $isDemo = true;
+    }
+    
+    // Process the response
+    if ($response && $httpCode === 200) {
+        $geoData = json_decode($response, true);
+        if ($geoData && isset($geoData['loc'])) {
+            $coords = explode(',', $geoData['loc']);
+            if (count($coords) === 2) {
+                $lat = floatval(trim($coords[0]));
+                $lng = floatval(trim($coords[1]));
+                
+                // Validate coordinates
+                if ($lat < -90 || $lat > 90 || $lng < -180 || $lng > 180) {
+                    $error = "Invalid coordinates received";
+                    $lat = 53.0793;
+                    $lng = 8.8017;
                     $isDemo = true;
                 }
             } else {
-                $error = "Location data not available";
+                $error = "Invalid location format";
                 $isDemo = true;
             }
         } else {
-            $error = "Failed to fetch location (HTTP {$httpCode})";
+            $error = "Location data not available";
             $isDemo = true;
         }
-    } else {
-        $error = "cURL not available";
+    } else if (!$error) {
+        $error = "Failed to fetch location data";
         $isDemo = true;
     }
 } else {
