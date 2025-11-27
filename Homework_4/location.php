@@ -1,5 +1,5 @@
 <?php
-// Get client IP address (improved version)
+// Get client IP address
 function getClientIP() {
     // Check for forwarded IPs first (most reliable for proxies)
     if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
@@ -28,113 +28,87 @@ function getClientIP() {
 
 $clientIP = getClientIP();
 
-// Check if IP is actually localhost (not just private IP)
-// Private IPs can still be geolocated, but localhost cannot
-function isLocalhostIP($ip) {
-    if (empty($ip) || $ip === 'UNKNOWN') return true;
-    if (in_array($ip, ['127.0.0.1', '::1', 'localhost'])) return true;
-    if (strpos($ip, '127.') === 0) return true;
-    return false;
+// Check if IP is localhost
+$isLocalhost = false;
+if ($clientIP === 'UNKNOWN' || empty($clientIP)) {
+    $isLocalhost = true;
+} else if (in_array($clientIP, ['127.0.0.1', '::1', 'localhost'])) {
+    $isLocalhost = true;
+} else if (strpos($clientIP, '127.') === 0) {
+    $isLocalhost = true;
 }
 
-// Check if IP is in private range (but still try to geolocate)
-function isPrivateIP($ip) {
-    if (empty($ip)) return true;
-    // 192.168.0.0/16
-    if (strpos($ip, '192.168.') === 0) return true;
-    // 10.0.0.0/8
-    if (strpos($ip, '10.') === 0) return true;
-    // 172.16.0.0/12 (172.16.0.0 to 172.31.255.255)
-    if (preg_match('/^172\.(1[6-9]|2[0-9]|3[0-1])\./', $ip)) return true;
-    return false;
-}
-
-$isLocalhost = isLocalhostIP($clientIP);
-$isPrivate = isPrivateIP($clientIP);
-
-// Fetch geo location from ipinfo.io
+// Initialize variables
 $geoData = null;
-$lat = null;
-$lng = null;
+$lat = 53.0793; // Default: Bremen, Germany
+$lng = 8.8017;
 $error = null;
 $isDemo = false;
 
-// Always try to get location, even for private IPs (they might still work)
-if ($clientIP && $clientIP !== 'UNKNOWN' && !$isLocalhost) {
-    // Clean IP address (remove any whitespace)
+// Try to get location from API if not localhost
+if (!$isLocalhost && $clientIP !== 'UNKNOWN') {
     $cleanIP = trim($clientIP);
-    
-    // Use ipinfo.io API
     $url = "https://ipinfo.io/{$cleanIP}/json";
     
-    // Initialize cURL with better error handling
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; UACS Location Service)');
-    
-    $response = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $curlError = curl_error($ch);
-    curl_close($ch);
-    
-    if ($curlError) {
-        $error = "Network error: " . htmlspecialchars($curlError);
-        $lat = 53.0793;
-        $lng = 8.8017;
-    } else if ($httpCode === 200 && $response) {
-        $geoData = json_decode($response, true);
-        if ($geoData && isset($geoData['loc'])) {
-            $coords = explode(',', $geoData['loc']);
-            if (count($coords) === 2) {
-                // ipinfo.io returns "lat,lng" format
-                $lat = floatval(trim($coords[0]));
-                $lng = floatval(trim($coords[1]));
-                
-                // Validate coordinates
-                if ($lat >= -90 && $lat <= 90 && $lng >= -180 && $lng <= 180) {
-                    // Success!
+    // Use cURL to fetch location
+    if (function_exists('curl_init')) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; UACS Location Service)');
+        
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlError = curl_error($ch);
+        curl_close($ch);
+        
+        if ($curlError) {
+            $error = "Network error: " . htmlspecialchars($curlError);
+            $isDemo = true;
+        } else if ($httpCode === 200 && $response) {
+            $geoData = json_decode($response, true);
+            if ($geoData && isset($geoData['loc'])) {
+                $coords = explode(',', $geoData['loc']);
+                if (count($coords) === 2) {
+                    $lat = floatval(trim($coords[0]));
+                    $lng = floatval(trim($coords[1]));
+                    
+                    // Validate coordinates
+                    if ($lat < -90 || $lat > 90 || $lng < -180 || $lng > 180) {
+                        $error = "Invalid coordinates received";
+                        $lat = 53.0793;
+                        $lng = 8.8017;
+                        $isDemo = true;
+                    }
                 } else {
-                    $error = "Invalid coordinates received";
-                    $lat = 53.0793;
-                    $lng = 8.8017;
+                    $error = "Invalid location format";
+                    $isDemo = true;
                 }
             } else {
-                $error = "Invalid location format";
-                $lat = 53.0793;
-                $lng = 8.8017;
+                $error = "Location data not available";
+                $isDemo = true;
             }
         } else {
-            $error = "Location data not available in response";
-            $lat = 53.0793;
-            $lng = 8.8017;
+            $error = "Failed to fetch location (HTTP {$httpCode})";
+            $isDemo = true;
         }
     } else {
-        $error = "Failed to fetch location data (HTTP {$httpCode})";
-        $lat = 53.0793;
-        $lng = 8.8017;
-        if ($isPrivate) {
-            $isDemo = true;
-            $error .= " - Private IP detected, using demo location";
-        }
+        $error = "cURL not available";
+        $isDemo = true;
     }
 } else {
-    // Fallback: localhost or unknown IP
-    if ($isLocalhost) {
-        $lat = 53.0793; // Demo: Bremen, Germany
-        $lng = 8.8017;
-        $isDemo = true;
-        $error = "Note: You're accessing from localhost. This is a demo location. On a real server, your actual IP location will be shown.";
-    } else {
-        $error = "Could not determine IP address";
-        $lat = 53.0793;
-        $lng = 8.8017;
-    }
+    // Localhost - use demo location
+    $isDemo = true;
+    $error = "Note: You're accessing from localhost. This is a demo location. On a real server, your actual IP location will be shown.";
 }
+
+// Ensure coordinates are valid numbers
+if (!is_numeric($lat)) $lat = 53.0793;
+if (!is_numeric($lng)) $lng = 8.8017;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -270,18 +244,8 @@ if ($clientIP && $clientIP !== 'UNKNOWN' && !$isLocalhost) {
     
     <div class="map-info">
       <strong>IP Address:</strong> <?php echo htmlspecialchars($clientIP); ?><br>
-      <?php 
-      // Debug info (can be removed later)
-      $debugInfo = [];
-      if (isset($_SERVER['REMOTE_ADDR'])) $debugInfo[] = "REMOTE_ADDR: " . $_SERVER['REMOTE_ADDR'];
-      if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) $debugInfo[] = "X-Forwarded-For: " . $_SERVER['HTTP_X_FORWARDED_FOR'];
-      if (isset($_SERVER['HTTP_CLIENT_IP'])) $debugInfo[] = "Client-IP: " . $_SERVER['HTTP_CLIENT_IP'];
-      ?>
-      <?php if (!empty($debugInfo)): ?>
-        <small style="color: #6b7280; font-size: 0.85em;">Debug: <?php echo htmlspecialchars(implode(' | ', $debugInfo)); ?></small><br>
-      <?php endif; ?>
       <?php if ($isDemo): ?>
-        <span style="color: #f59e0b;">ℹ️ <strong>Demo Mode:</strong> <?php echo $isLocalhost ? 'Localhost detected' : 'Private IP or API failed'; ?></span><br>
+        <span style="color: #f59e0b;">ℹ️ <strong>Demo Mode:</strong> <?php echo $isLocalhost ? 'Localhost detected' : 'Using demo location'; ?></span><br>
       <?php elseif ($geoData && isset($geoData['city'])): ?>
         <strong>Location:</strong> <?php echo htmlspecialchars($geoData['city']); ?>
         <?php if (isset($geoData['region'])): ?>, <?php echo htmlspecialchars($geoData['region']); ?><?php endif; ?>
@@ -307,37 +271,36 @@ if ($clientIP && $clientIP !== 'UNKNOWN' && !$isLocalhost) {
 
   <script>
     // Initialize map centered on the client's location
-    const lat = <?php echo $lat; ?>;
-    const lng = <?php echo $lng; ?>;
-    const clientIP = <?php echo json_encode($clientIP); ?>;
-    const isDemo = <?php echo $isDemo ? 'true' : 'false'; ?>;
+    var lat = <?php echo floatval($lat); ?>;
+    var lng = <?php echo floatval($lng); ?>;
+    var clientIP = <?php echo json_encode($clientIP); ?>;
+    var isDemo = <?php echo $isDemo ? 'true' : 'false'; ?>;
     
-    // Validate coordinates before initializing map
+    // Validate coordinates
     if (isNaN(lat) || isNaN(lng) || lat < -90 || lat > 90 || lng < -180 || lng > 180) {
       console.error('Invalid coordinates:', lat, lng);
       document.getElementById('map').innerHTML = '<div style="padding: 2rem; text-align: center; color: #dc2626;"><strong>Error:</strong> Invalid coordinates. Please refresh the page.</div>';
     } else {
       try {
         // Create map instance
-        const map = L.map('map').setView([lat, lng], 13);
+        var map = L.map('map').setView([lat, lng], 13);
         
-        // Add OpenStreetMap tile layer with error handling
+        // Add OpenStreetMap tile layer
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-          maxZoom: 19,
-          errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
+          maxZoom: 19
         }).addTo(map);
         
         // Add marker with IP address callout
-        const marker = L.marker([lat, lng]).addTo(map);
-        const popupContent = `
-          <div style="text-align: center; padding: 8px;">
-            <strong style="font-size: 16px; color: #0B3D91;">📍 Your Location</strong><br>
-            <span style="font-size: 14px; color: #374151;">IP: <code>${clientIP}</code></span><br>
-            <span style="font-size: 12px; color: #6b7280;">Coordinates: ${lat.toFixed(4)}, ${lng.toFixed(4)}</span>
-            ${isDemo ? '<br><span style="font-size: 11px; color: #f59e0b;">⚠️ Demo Mode</span>' : ''}
-          </div>
-        `;
+        var marker = L.marker([lat, lng]).addTo(map);
+        var popupContent = '<div style="text-align: center; padding: 8px;">' +
+          '<strong style="font-size: 16px; color: #0B3D91;">📍 Your Location</strong><br>' +
+          '<span style="font-size: 14px; color: #374151;">IP: <code>' + clientIP + '</code></span><br>' +
+          '<span style="font-size: 12px; color: #6b7280;">Coordinates: ' + lat.toFixed(4) + ', ' + lng.toFixed(4) + '</span>';
+        if (isDemo) {
+          popupContent += '<br><span style="font-size: 11px; color: #f59e0b;">⚠️ Demo Mode</span>';
+        }
+        popupContent += '</div>';
         marker.bindPopup(popupContent).openPopup();
         
         // Handle map errors
@@ -351,18 +314,19 @@ if ($clientIP && $clientIP !== 'UNKNOWN' && !$isLocalhost) {
     }
     
     // Dark mode toggle
-    const toggle = document.getElementById("theme-toggle");
-    if (localStorage.getItem('theme') === 'dark') {
-      document.body.classList.add('dark-mode');
-      toggle.textContent = '☀️';
+    var toggle = document.getElementById("theme-toggle");
+    if (toggle) {
+      if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        toggle.textContent = '☀️';
+      }
+      
+      toggle.addEventListener("click", function() {
+        document.body.classList.toggle("dark-mode");
+        toggle.textContent = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
+        localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+      });
     }
-    
-    toggle.addEventListener("click", () => {
-      document.body.classList.toggle("dark-mode");
-      toggle.textContent = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
-      localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
-    });
   </script>
 </body>
 </html>
-
