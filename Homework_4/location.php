@@ -1,26 +1,55 @@
 <?php
-// Get client IP address
+// Get client IP address - improved to find real public IP
 function getClientIP() {
-    // Check for forwarded IPs first (most reliable for proxies)
-    if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        $ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-        $ip = trim($ips[0]);
-        // Filter out private IPs
-        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
-            return $ip;
+    $ipHeaders = [
+        'HTTP_CF_CONNECTING_IP',     // Cloudflare
+        'HTTP_X_REAL_IP',            // Nginx proxy
+        'HTTP_X_FORWARDED_FOR',      // Standard proxy header
+        'HTTP_X_FORWARDED',
+        'HTTP_X_CLUSTER_CLIENT_IP',
+        'HTTP_FORWARDED_FOR',
+        'HTTP_FORWARDED',
+        'HTTP_CLIENT_IP',
+        'REMOTE_ADDR'
+    ];
+    
+    // First, try to find a public IP in forwarded headers
+    foreach ($ipHeaders as $header) {
+        if (!empty($_SERVER[$header])) {
+            $ips = explode(',', $_SERVER[$header]);
+            foreach ($ips as $ip) {
+                $ip = trim($ip);
+                // Remove port if present (e.g., "1.2.3.4:12345" -> "1.2.3.4")
+                if (strpos($ip, ':') !== false && filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === false) {
+                    $ip = explode(':', $ip)[0];
+                }
+                
+                // Validate and check if it's a public IP
+                if (filter_var($ip, FILTER_VALIDATE_IP)) {
+                    // Prefer public IPs, but accept any valid IP
+                    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+                        return $ip; // Found a public IP, return it
+                    }
+                }
+            }
         }
     }
     
-    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-        $ip = $_SERVER['HTTP_CLIENT_IP'];
-        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
-            return $ip;
+    // If no public IP found, return the first valid IP we found (even if private)
+    // This way we can still try to geolocate it
+    foreach ($ipHeaders as $header) {
+        if (!empty($_SERVER[$header])) {
+            $ips = explode(',', $_SERVER[$header]);
+            foreach ($ips as $ip) {
+                $ip = trim($ip);
+                if (strpos($ip, ':') !== false && filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === false) {
+                    $ip = explode(':', $ip)[0];
+                }
+                if (filter_var($ip, FILTER_VALIDATE_IP)) {
+                    return $ip;
+                }
+            }
         }
-    }
-    
-    // Fallback to REMOTE_ADDR
-    if (!empty($_SERVER['REMOTE_ADDR'])) {
-        return $_SERVER['REMOTE_ADDR'];
     }
     
     return 'UNKNOWN';
@@ -28,7 +57,7 @@ function getClientIP() {
 
 $clientIP = getClientIP();
 
-// Check if IP is localhost
+// Check if IP is localhost (only for actual localhost, not private IPs)
 $isLocalhost = false;
 if ($clientIP === 'UNKNOWN' || empty($clientIP)) {
     $isLocalhost = true;
@@ -40,12 +69,12 @@ if ($clientIP === 'UNKNOWN' || empty($clientIP)) {
 
 // Initialize variables
 $geoData = null;
-$lat = 53.0793; // Default: Bremen, Germany
-$lng = 8.8017;
+$lat = null;
+$lng = null;
 $error = null;
 $isDemo = false;
 
-// Try to get location from API if not localhost
+// Always try to get location from API (even for private IPs - some APIs might work)
 if (!$isLocalhost && $clientIP !== 'UNKNOWN') {
     $cleanIP = trim($clientIP);
     $url = "https://ipinfo.io/{$cleanIP}/json";
@@ -104,32 +133,42 @@ if (!$isLocalhost && $clientIP !== 'UNKNOWN') {
                 
                 // Validate coordinates
                 if ($lat < -90 || $lat > 90 || $lng < -180 || $lng > 180) {
-                    $error = "Invalid coordinates received";
-                    $lat = 53.0793;
-                    $lng = 8.8017;
-                    $isDemo = true;
+                    $error = "Invalid coordinates received from API";
+                    $lat = null;
+                    $lng = null;
                 }
             } else {
-                $error = "Invalid location format";
-                $isDemo = true;
+                $error = "Invalid location format in API response";
             }
         } else {
-            $error = "Location data not available";
-            $isDemo = true;
+            $error = "Location data not available in API response";
         }
     } else if (!$error) {
-        $error = "Failed to fetch location data";
-        $isDemo = true;
+        $error = "Failed to fetch location data from API";
     }
+} else if ($isLocalhost) {
+    // Only show demo for actual localhost
+    $error = "Cannot geolocate localhost. Please access from a real network.";
+    $lat = null;
+    $lng = null;
 } else {
-    // Localhost - use demo location
-    $isDemo = true;
-    $error = "Note: You're accessing from localhost. This is a demo location. On a real server, your actual IP location will be shown.";
+    $error = "Could not determine IP address";
+    $lat = null;
+    $lng = null;
 }
 
-// Ensure coordinates are valid numbers
-if (!is_numeric($lat)) $lat = 53.0793;
-if (!is_numeric($lng)) $lng = 8.8017;
+// Ensure coordinates are valid numbers - use a reasonable default if API failed
+if (!is_numeric($lat) || !is_numeric($lng) || ($lat == 0 && $lng == 0)) {
+    // Only use default if we truly have no location data
+    if (!isset($geoData) || !isset($geoData['loc'])) {
+        // Use a neutral default (center of world map) if API completely failed
+        $lat = 20;
+        $lng = 0;
+        if ($error && strpos($error, 'localhost') === false) {
+            $error .= " - Showing default map view";
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -265,15 +304,16 @@ if (!is_numeric($lng)) $lng = 8.8017;
     
     <div class="map-info">
       <strong>IP Address:</strong> <?php echo htmlspecialchars($clientIP); ?><br>
-      <?php if ($isDemo): ?>
-        <span style="color: #f59e0b;">ℹ️ <strong>Demo Mode:</strong> <?php echo $isLocalhost ? 'Localhost detected' : 'Using demo location'; ?></span><br>
-      <?php elseif ($geoData && isset($geoData['city'])): ?>
+      <?php if ($geoData && isset($geoData['city'])): ?>
         <strong>Location:</strong> <?php echo htmlspecialchars($geoData['city']); ?>
         <?php if (isset($geoData['region'])): ?>, <?php echo htmlspecialchars($geoData['region']); ?><?php endif; ?>
         <?php if (isset($geoData['country'])): ?> — <?php echo htmlspecialchars($geoData['country']); ?><?php endif; ?>
+        <br><span style="color: #059669; font-size: 0.9em;">✅ Location detected successfully</span>
+      <?php elseif ($isLocalhost): ?>
+        <span style="color: #f59e0b;">ℹ️ <strong>Note:</strong> Cannot geolocate localhost addresses</span><br>
       <?php endif; ?>
       <?php if ($error): ?>
-        <br><span style="color: <?php echo $isDemo ? '#f59e0b' : '#dc2626'; ?>;">⚠️ <?php echo htmlspecialchars($error); ?></span>
+        <br><span style="color: #dc2626;">⚠️ <?php echo htmlspecialchars($error); ?></span>
       <?php endif; ?>
     </div>
     
@@ -295,7 +335,6 @@ if (!is_numeric($lng)) $lng = 8.8017;
     var lat = <?php echo floatval($lat); ?>;
     var lng = <?php echo floatval($lng); ?>;
     var clientIP = <?php echo json_encode($clientIP); ?>;
-    var isDemo = <?php echo $isDemo ? 'true' : 'false'; ?>;
     
     // Validate coordinates
     if (isNaN(lat) || isNaN(lng) || lat < -90 || lat > 90 || lng < -180 || lng > 180) {
@@ -317,11 +356,7 @@ if (!is_numeric($lng)) $lng = 8.8017;
         var popupContent = '<div style="text-align: center; padding: 8px;">' +
           '<strong style="font-size: 16px; color: #0B3D91;">📍 Your Location</strong><br>' +
           '<span style="font-size: 14px; color: #374151;">IP: <code>' + clientIP + '</code></span><br>' +
-          '<span style="font-size: 12px; color: #6b7280;">Coordinates: ' + lat.toFixed(4) + ', ' + lng.toFixed(4) + '</span>';
-        if (isDemo) {
-          popupContent += '<br><span style="font-size: 11px; color: #f59e0b;">⚠️ Demo Mode</span>';
-        }
-        popupContent += '</div>';
+          '<span style="font-size: 12px; color: #6b7280;">Coordinates: ' + lat.toFixed(4) + ', ' + lng.toFixed(4) + '</span></div>';
         marker.bindPopup(popupContent).openPopup();
         
         // Handle map errors
