@@ -1,29 +1,39 @@
 <?php
-// Get client IP address
+// Get client IP address (improved version)
 function getClientIP() {
-    $ipaddress = '';
-    if (isset($_SERVER['HTTP_CLIENT_IP']))
-        $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
-    else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-        $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    else if(isset($_SERVER['HTTP_X_FORWARDED']))
-        $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
-    else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
-        $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
-    else if(isset($_SERVER['HTTP_FORWARDED']))
-        $ipaddress = $_SERVER['HTTP_FORWARDED'];
-    else if(isset($_SERVER['REMOTE_ADDR']))
-        $ipaddress = $_SERVER['REMOTE_ADDR'];
-    else
-        $ipaddress = 'UNKNOWN';
-    return $ipaddress;
+    // Check for forwarded IPs first (most reliable for proxies)
+    if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+        $ip = trim($ips[0]);
+        // Filter out private IPs
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+            return $ip;
+        }
+    }
+    
+    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+            return $ip;
+        }
+    }
+    
+    // Fallback to REMOTE_ADDR
+    if (!empty($_SERVER['REMOTE_ADDR'])) {
+        return $_SERVER['REMOTE_ADDR'];
+    }
+    
+    return 'UNKNOWN';
 }
 
 $clientIP = getClientIP();
 
-// Check if IP is localhost
+// Check if IP is localhost or private
 $isLocalhost = in_array($clientIP, ['127.0.0.1', '::1', 'localhost', 'UNKNOWN']) || 
-               strpos($clientIP, '127.') === 0;
+               strpos($clientIP, '127.') === 0 ||
+               strpos($clientIP, '192.168.') === 0 ||
+               strpos($clientIP, '10.') === 0 ||
+               strpos($clientIP, '172.') === 0;
 
 // Fetch geo location from ipinfo.io
 $geoData = null;
@@ -33,43 +43,71 @@ $error = null;
 $isDemo = false;
 
 if ($isLocalhost) {
-    // For localhost, use demo location and show informative message
+    // For localhost/private IPs, use demo location
     $lat = 53.0793; // Demo: Bremen, Germany
     $lng = 8.8017;
     $isDemo = true;
-    $error = "Note: You're accessing from localhost. This is a demo location. On a real server, your actual IP location will be shown.";
+    $error = "Note: You're accessing from localhost/private network. This is a demo location. On a public server, your actual IP location will be shown.";
 } else if ($clientIP && $clientIP !== 'UNKNOWN') {
-    $url = "https://ipinfo.io/{$clientIP}/json";
+    // Clean IP address (remove any whitespace)
+    $cleanIP = trim($clientIP);
+    
+    // Use ipinfo.io API
+    $url = "https://ipinfo.io/{$cleanIP}/json";
+    
+    // Initialize cURL with better error handling
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; UACS Location Service)');
+    
     $response = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlError = curl_error($ch);
     curl_close($ch);
     
-    if ($httpCode === 200 && $response) {
+    if ($curlError) {
+        $error = "Network error: " . htmlspecialchars($curlError);
+        $lat = 53.0793;
+        $lng = 8.8017;
+    } else if ($httpCode === 200 && $response) {
         $geoData = json_decode($response, true);
-        if (isset($geoData['loc'])) {
+        if ($geoData && isset($geoData['loc'])) {
             $coords = explode(',', $geoData['loc']);
-            $lat = floatval($coords[0]);
-            $lng = floatval($coords[1]);
+            if (count($coords) === 2) {
+                // ipinfo.io returns "lat,lng" format
+                $lat = floatval(trim($coords[0]));
+                $lng = floatval(trim($coords[1]));
+                
+                // Validate coordinates
+                if ($lat >= -90 && $lat <= 90 && $lng >= -180 && $lng <= 180) {
+                    // Success!
+                } else {
+                    $error = "Invalid coordinates received";
+                    $lat = 53.0793;
+                    $lng = 8.8017;
+                }
+            } else {
+                $error = "Invalid location format";
+                $lat = 53.0793;
+                $lng = 8.8017;
+            }
         } else {
-            $error = "Location data not available";
-            // Fallback coordinates
+            $error = "Location data not available in response";
             $lat = 53.0793;
             $lng = 8.8017;
         }
     } else {
-        $error = "Failed to fetch location data";
-        // Fallback coordinates
+        $error = "Failed to fetch location data (HTTP {$httpCode})";
         $lat = 53.0793;
         $lng = 8.8017;
     }
 } else {
     $error = "Could not determine IP address";
-    // Fallback coordinates
     $lat = 53.0793;
     $lng = 8.8017;
 }

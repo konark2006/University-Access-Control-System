@@ -3,156 +3,125 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>UACS Portal Hub</title>
-  <link rel="stylesheet" href="portal_style.css?v=2" />
+  <title>UACS — University Access Control System</title>
+  <link rel="stylesheet" href="style.css?v=13" />
+
   <style>
-    /* --- Glowing Nav Buttons --- */
-    .uacs-topbar {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: rgba(11, 23, 40, 0.9);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(8px);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    }
-
-    .uacs-nav {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 10px 16px;
-      display: flex;
-      gap: 14px;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .uacs-nav .logo {
-      margin-right: auto;
-      font-weight: 800;
-      color: #58a6ff;
-      font-size: 1.1rem;
-      text-transform: uppercase;
-      text-decoration: none;
-      letter-spacing: 0.8px;
-    }
-
-    .uacs-nav a {
-      text-decoration: none;
-      font-weight: 600;
-      color: #f1f5f9;
-      padding: 10px 18px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #007bff, #00c2ff);
-      box-shadow: 0 0 10px rgba(0, 150, 255, 0.3);
-      transition: all 0.3s ease;
-    }
-
-    .uacs-nav a:hover {
-      transform: translateY(-2px) scale(1.05);
-      box-shadow: 0 0 25px rgba(0, 200, 255, 0.7);
-      background: linear-gradient(135deg, #00b4d8, #0077ff);
-    }
-
-    /* Light Mode override */
-    @media (prefers-color-scheme: light) {
-      .uacs-topbar {
-        background: rgba(255, 255, 255, 0.9);
-        border-bottom: 1px solid #e5e7eb;
-      }
-      .uacs-nav a {
-        background: linear-gradient(135deg, #0052d4, #65c7f7);
-        color: #fff;
-      }
-      .uacs-nav a:hover {
-        box-shadow: 0 0 20px rgba(0, 140, 255, 0.7);
-      }
-    }
+  /* === UNIVERSAL NAVBAR STYLING === */
+  .uacs-topbar {
+    position: sticky; top: 0; z-index: 9999;
+    background: #0b1728; border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+  .uacs-nav {
+    max-width: 1100px; margin: 0 auto; padding: 10px 16px;
+    display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  }
+  .uacs-nav a {
+    color: #e2e8f0; text-decoration: none;
+    font: 600 14px/1.2 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    padding: 8px 12px; border-radius: 10px;
+    transition: background .2s, color .2s, transform .1s;
+  }
+  .uacs-nav a:hover { background: rgba(255,255,255,.08); transform: translateY(-1px); }
+  .uacs-nav .logo { margin-right: auto; font-weight: 800; letter-spacing: .3px; background: transparent; }
+  @media (prefers-color-scheme: light){
+    .uacs-topbar { background: #fff; border-bottom: 1px solid #e5e7eb; }
+    .uacs-nav a { color: #111827; }
+    .uacs-nav a:hover { background: #f3f4f6; }
+  }
   </style>
 </head>
 
 <body>
-  <!-- ✨ UACS Global Navigation with Glowing Buttons -->
+  <!-- === UNIVERSAL NAV BAR === -->
   <header class="uacs-topbar">
     <nav class="uacs-nav">
-      <a class="logo" href="./">UACS</a>
-      <a href="./HW4/index.html">Access Portal</a>
-      <a href="./HW5/maintenance.html">Admin Dashboard</a>
-      <a href="./HW6/index.html">Search System</a>
-      <a href="./HW4/location.php">📍 Location Map</a>
+      <a class="logo" href="/~kkonark/">UACS</a>
+      <a href="/~kkonark/HW4/index.html">📘 Access Portal</a>
+      <a href="/~kkonark/HW7/maintenance.php">🧰 Maintenance</a>
+      <a href="/~kkonark/HW6/index.html">🔍 Search Portal</a>
+      <a href="/~kkonark/HW4/location.php">📍 Location Map</a>
+      <a href="/~kkonark/HW7/logout.php" style="color:#ff4d4d;font-weight:bold;">🚪 Logout</a>
     </nav>
   </header>
 
-  <!-- ===== Glowing Cursor ===== -->
-  <div class="cursor"></div>
+  <!-- === MAIN HEADER === -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="UACS Home">
+        <img class="brand-logo" src="img/UACS_logo.png" alt="UACS logo" />
+        <span class="brand-text">UACS</span>
+      </a>
 
-  <!-- ===== Header ===== -->
-  <header class="header">
-    <div class="logo">
-      <img src="./HW4/img/UACS_logo.png" alt="UACS logo" />
-      <h1>University Access Control System</h1>
+      <nav class="nav">
+        <a class="active" href="index.html">Home</a>
+        <a href="/~kkonark/HW7/maintenance.php" class="nav-admin">Maintenance</a>
+        <a href="/~kkonark/HW6/index.html" class="nav-search">Search</a>
+        <button id="theme-toggle" class="btn small-btn" aria-label="Toggle dark mode">🌙</button>
+      </nav>
     </div>
-    <button id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
   </header>
 
-  <!-- ===== Hero Section ===== -->
+  <!-- === HERO SECTION === -->
   <section class="hero">
-    <h2 class="title">Access • Control • Search</h2>
-    <p class="subtitle">
-      A secure digital gateway to manage, monitor, and explore university access data.
-    </p>
+    <h1>University Access Control System</h1>
+    <p>Manage and secure access across university rooms, systems, and events — seamlessly integrated and transparent.</p>
 
-    <div class="buttons">
-      <a href="./HW4/index.html" class="btn primary">Access Portal</a>
-      <a href="./HW5/maintenance.html" class="btn success">Admin Dashboard</a>
-      <a href="./HW6/index.html" class="btn secondary">Search Portal</a>
-      <a href="./HW4/location.php" class="btn secondary">📍 Location Map</a>
+    <div class="hero-buttons">
+      <a href="/~kkonark/HW7/maintenance.php" class="btn primary">Admin / Maintenance →</a>
+      <a href="/~kkonark/HW6/index.html" class="btn secondary">Search Portal →</a>
+      <a href="/~kkonark/HW4/location.php" class="btn success">📍 Location Map</a>
+      <a href="/~kkonark/HW7/form_insert_request.php" class="btn primary">Access Requests</a>
+      <a href="/~kkonark/HW7/form_insert_resource.php" class="btn secondary">Manage Resources</a>
+      <a href="/~kkonark/HW7/form_insert_access_event.php" class="btn success">Audit Events</a>
+      <a href="/~kkonark/HW7/form_insert_room.php" class="btn info">Room Manager</a>
     </div>
   </section>
 
-  <!-- ===== Floating Cards ===== -->
-  <section class="features">
-    <div class="feature-card" style="--clr:#00b4d8">
-      <h3>⚙️ Admin Access</h3>
-      <p>Manage requests, rooms, and system permissions with a smooth workflow.</p>
+  <!-- === CARDS === -->
+  <section class="cards">
+    <div class="card">
+      <h3>📥 Access Requests</h3>
+      <p>Students, staff, and visitors can submit requests for access approval and track their status in real-time.</p>
+      <a href="/~kkonark/HW7/form_insert_request.php" class="link">Go to Access Requests →</a>
     </div>
-    <div class="feature-card" style="--clr:#9b5de5">
-      <h3>🔍 Smart Search</h3>
-      <p>Query users, events, or resources instantly with powerful database integration.</p>
+
+    <div class="card">
+      <h3>💻 Resources</h3>
+      <p>Register and manage rooms, systems, and assets that require controlled access permissions.</p>
+      <a href="/~kkonark/HW7/form_insert_resource.php" class="link">Manage Resources →</a>
     </div>
-    <div class="feature-card" style="--clr:#ff8500">
-      <h3>💡 Dark Mode</h3>
-      <p>Switch between light and dark seamlessly — your preference is remembered.</p>
+
+    <div class="card">
+      <h3>🔍 Access Events</h3>
+      <p>View detailed event logs of access attempts, including successes and failures, for transparency and auditing.</p>
+      <a href="/~kkonark/HW7/form_insert_access_event.php" class="link">View Events →</a>
     </div>
-    <div class="feature-card" style="--clr:#00d4aa">
+
+    <div class="card">
+      <h3>🏫 Room Manager</h3>
+      <p>Assign, update, and maintain room information, including capacities and building associations.</p>
+      <a href="/~kkonark/HW7/form_insert_room.php" class="link">Manage Rooms →</a>
+    </div>
+
+    <div class="card">
       <h3>📍 Location Map</h3>
-      <p>View your geographical location on an interactive map based on your IP address.</p>
+      <p>View your geographical location on an interactive map based on your IP address using geo-location services.</p>
+      <a href="/~kkonark/HW4/location.php" class="link">View Location Map →</a>
     </div>
   </section>
 
-  <!-- ===== Footer ===== -->
+  <!-- === FOOTER === -->
   <footer class="footer">
-    <p>© 2025 UACS Portal Hub — Built with 💙 by Konark</p>
+    <p>© 2025 UACS — <a href="imprint.html">Imprint / Disclaimer</a></p>
   </footer>
 
-  <!-- ===== Scripts ===== -->
+  <!-- === DARK MODE SCRIPT === -->
   <script>
-    // Glowing cursor trail
-    const cursor = document.querySelector('.cursor');
-    document.addEventListener('mousemove', e => {
-      cursor.style.left = e.pageX + 'px';
-      cursor.style.top = e.pageY + 'px';
-    });
-
-    // Dark mode toggle
-    const toggle = document.getElementById('theme-toggle');
-    const body = document.body;
-    if (localStorage.getItem('theme') === 'dark') body.classList.add('dark');
-    toggle.addEventListener('click', () => {
-      body.classList.toggle('dark');
-      toggle.textContent = body.classList.contains('dark') ? '☀️' : '🌙';
-      localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
+    const toggle = document.getElementById("theme-toggle");
+    toggle.addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+      toggle.textContent = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
     });
   </script>
 </body>
